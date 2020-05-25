@@ -8,23 +8,23 @@ const Navbar = (props) => {
  const renderContent = ()=>{
        switch(props.user){
            case null:
-               return <a href="/">loading</a>
+               return <li><a href="/">loading</a></li>
            case false:  
-               return  <Link to="/signup">SIGNUP/LOGIN</Link>
+               return  <li><Link to="/signup">SIGNUP/LOGIN</Link></li>
            default:
               if(props.user.status=="admin"){
                   return(
                     <React.Fragment>
-                      <a href="/api/logout">LOGOUT</a>
-                      <Link to="/allOrders">ALL ORDERS</Link>
+                      <li><a href="/api/logout">LOGOUT</a></li>
+                      <li><Link to="/allOrders">ALL ORDERS</Link></li>
                     </React.Fragment>
                   )                 
               }else{
                 return(
                     <React.Fragment>
-                      <a href="/api/logout">logout</a>
-                      <Link to="/profile">profile</Link>
-                       <Link to={`/Wishlist/${props.user._id}`}>Wishlist</Link>
+                      <li><a href="/api/logout">logout</a></li>
+                      <li><Link to="/profile">profile</Link></li>
+                       <li><Link to={`/Wishlist/${props.user._id}`}>Wishlist</Link></li>
                     </React.Fragment>
                 )  
               }
@@ -37,35 +37,44 @@ const Navbar = (props) => {
 
 
  useEffect(() => {
-    const header = document.getElementById("navbar");
-    const sticky = header.offsetTop;
-    const scrollCallBack = window.addEventListener("scroll", () => {
-      if (window.pageYOffset > sticky) {
-        header.classList.add("sticky");
-       
-      } else {
-        header.classList.remove("sticky");
-        
-      }
-    });
-    return () => {
-      window.removeEventListener("scroll", scrollCallBack);
-    };
+   
   }, []);
 
  
 return(
- 
+ <React.Fragment>
+   <nav >
+    <div  class="nav-wrapper orange">
+      <a href="#" class="brand-logo center">
+        <img className="sidenav-trigger responsive-img" data-target="slide-out" src={`/images/BrandLogoPng.png`}/>
+      </a>
+      <ul id="nav-mobile" class="left hide-on-med-and-down">
+        
+        <li><i data-target="slide-out" className="sidenav-trigger material-icons">menu</i></li>
+        
+      </ul>
+    </div>
+  </nav>
 
-  <div id="navbar"  >
-    <Link to="/">HOME</Link>
-    <Link to="/product">PRODUCTS</Link>
-    <Link to="/enquiry">ENQUIRY</Link>
-    <Link to="/contact">CONTACT US</Link>
-    <Link to="/about">ABOUT US</Link>
-    <Link to="/career">CAREER</Link>
+  <ul id="slide-out" className="sidenav">
+    <li><div className="user-view">
+      <div className="background">
+        <img src="images/office.jpg"/>
+      </div>
+      <a href="#user"><img className="circle" src="images/yuna.jpg"/></a>
+      <a href="#name"><span className="white-text name">John Doe</span></a>
+      <a href="#email"><span className="white-text email">jdandturk@gmail.com</span></a>
+    </div></li>
+    <li><Link to="/">HOME</Link></li>
+    <li><Link to="/product">PRODUCTS</Link></li>
+    <li><div className="divider"></div></li>
+    <li><Link to="/enquiry">ENQUIRY</Link></li>
+    <li><Link to="/contact">CONTACT US</Link></li>
+    <li><Link to="/about">ABOUT US</Link></li>
+    <li><Link to="/career">CAREER</Link></li>
     {renderContent()}
-  </div>
+  </ul>
+  </React.Fragment>
 
 );
   

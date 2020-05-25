@@ -20,13 +20,19 @@ import MyOrders from "./components/MyOrders";
 import {BrowserRouter, Route} from 'react-router-dom';
 import {connect} from 'react-redux'
 import {fetchUserAction} from './actions/myactions'
+import M from "materialize-css";
 
 
 
 
 function App(props) {
   useEffect(()=>{
-     props.fetch_user()
+     props.fetch_user();
+
+    var elems = document.querySelectorAll('.sidenav');
+    var instances =window.M.Sidenav.init(elems, {});
+    
+    
   },[])
 
  
@@ -42,9 +48,7 @@ return(
 
  <BrowserRouter>
 
-   
-  
-      <Navbar/>
+        <Navbar />
         <Route exact path='/' component={Home}/>
         <Route path='/about' component={About}/>
         <Route path='/career' component={Career}/>
