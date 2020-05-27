@@ -26,10 +26,6 @@ const insideStyles = {
 };
 
 const Home = () => {
-
- const strengthElement=[];
- const cardioElement=[];
- const accessoriesElement=[];
  const [listOfStrength, setListOfStrength] = useState(<div id="carousel1" className="carousel"><a className="carousel-item" href="#one!"><img src={logo1}/></a></div>);
  const [listOfCardio, setListOfCardio] = useState(<div id="carousel2" className="carousel"><a className="carousel-item" href="#one!"><img src={logo1}/></a></div>);
  const [listOfAccessories, setListOfAccessories] = useState(<div id="carousel3" className="carousel"><a className="carousel-item" href="#one!"><img src={logo1}/></a></div>);
@@ -38,58 +34,63 @@ const Home = () => {
       axios.get("/api/categoryExplored/Strength", {
          
       })
-      .then((response)=>{
-        for (let i=0; i<response.data.length; i++) {
-          strengthElement.push(
-              <a className="carousel-item" href="#one!"><img src={`/images/${response.data[i].productCategoryName}.jpg`}/></a>
-            );
-        }
-        setListOfStrength(<div id="carousel1" className="carousel">{strengthElement}</div>);
-        
-        console.log(response)
+      .then(async (response)=>{
+        const res = await response.data.map((item)=>{
+          return(
+            <a className="carousel-item" ><img src={`/images/${item.productCategoryName.replace(/ /g,'')}.jpg`}/></a>
+          )
+        })
+        return res
       })
+      .then(res =>setListOfStrength(<div id="carousel1" className="carousel">{res}</div>))
+      .then(res =>{
+          var elem = document.getElementById("carousel1");
+          var instance = window.M.Carousel.init(elem, {
+            shift: 20,
+            dist:30,
+          });
+      })
+
+     
     //Cardio
       axios.get("/api/categoryExplored/Cardio", {
          
       })
-      .then((response)=>{
-        for (let i=0; i<response.data.length; i++) {
-          cardioElement.push(
-              <a className="carousel-item" href="#one!"><img src={`/images/${response.data[i].productCategoryName}.jpg`}/></a>
-            );
-        }
-        setListOfCardio(<div id="carousel2" className="carousel">{cardioElement}</div>);
+      .then(async(response)=>{
+         const res=await response.data.map((item)=>{
+            return <a className="carousel-item" href="#one!"><img src={`/images/${item.productCategoryName.replace(/ /g,'')}.jpg`}/></a>
+          })
+          return res;
+       
+      }).then(res=>setListOfCardio(<div id="carousel2" className="carousel">{res}</div>))
+      .then(()=>{
+          var elem = document.getElementById("carousel2");
+          var instance = window.M.Carousel.init(elem, {
+            shift: 20,
+            dist:30,
+          });
       })
     //Accessories
       axios.get("/api/categoryExplored/Accessories", {
          
       })
-      .then((response)=>{
-        for (let i=0; i<response.data.length; i++) {
-          accessoriesElement.push(
-              <a className="carousel-item" href="#one!"><img src={`/images/${response.data[i].productCategoryName}.jpg`}/></a>
-            );
-        }
-        listOfAccessories(<div id="carousel3" className="carousel">{accessoriesElement}</div>);
+      .then(async (response)=>{
+          const res= await response.data.map((item)=>{
+            return <a className="carousel-item" href="#one!"><img src={`/images/${item.productCategoryName.replace(/ /g,'')}.jpg`}/></a>
+          })
+          return res;
+        
+      })
+      .then((res)=>setListOfAccessories(<div id="carousel3" className="carousel">{res}</div>))
+      .then(()=>{
+        var elem = document.getElementById("carousel3");
+        var instance = window.M.Carousel.init(elem, {
+          shift: 20,
+          dist:30,
+        });
       })
 
-var elem = document.getElementById("carousel1");
-var instance = window.M.Carousel.init(elem, {
-  shift: 20,
-  dist:30,
-});
 
-var elem = document.getElementById("carousel2");
-var instance = window.M.Carousel.init(elem, {
-  shift: 20,
-  dist:30,
-});
-
-var elem = document.getElementById("carousel3");
-var instance = window.M.Carousel.init(elem, {
-  shift: 20,
-  dist:30,
-});
 
     
   }, []);
@@ -98,7 +99,6 @@ var instance = window.M.Carousel.init(elem, {
 
 return(
 <React.Fragment>
-
  <div style={styles}>
     <BrandLogo/>
     <Parallax bgImage={logo5} strength={500}>
@@ -125,7 +125,9 @@ return(
 
 
 <div className="row " >
-    {listOfStrength}
+    
+      {listOfStrength}
+    
 </div>
 
 

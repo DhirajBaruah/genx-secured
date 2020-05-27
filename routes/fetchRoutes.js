@@ -2,6 +2,7 @@ const express= require('express');
 const mongoose = require('mongoose');
 const passport = require('passport');
 const fileUpload = require('express-fileupload');
+const fs = require('fs');
 require('../models/equipments');
 require('../models/category');
 require('../models/product');
@@ -16,6 +17,7 @@ const product = mongoose.model('product');
 const productCategory = mongoose.model('productCategory');
 const users = mongoose.model('users');
 const userAuthCredentials = mongoose.model('userAuthCredentials');
+
 
 
 
@@ -273,16 +275,9 @@ app.post('/uploadProductCategory/:id', (req, res) => {
   const categoryName = req.params.id;
   const productCategoryName = req.body.productCategoryName;
   const details = req.body.details;
+  const imageName= productCategoryName.replace(/ /g,'');
  
-  file.mv(`./client/public/images/${productCategoryName}.jpg`, err => {
-    if (err) {
-      console.error(err);
-      return res.status(500).send(err);
-    }
-
-  });
-
-
+  
   category.find({categoryName: categoryName}, function(err, data){
 
       if (err) {
@@ -309,6 +304,13 @@ app.post('/uploadProductCategory/:id', (req, res) => {
             success: true
             });
             console.log("successfully added in productCategories")
+            file.mv(`./client/public/images/${imageName}.jpg`, err => {
+                if (err) {
+                console.error(err);
+                return res.status(500).send(err);
+                }
+
+            });
 
         });
   })
@@ -321,7 +323,7 @@ app.post('/uploadProductCategory/:id', (req, res) => {
 app.delete(`/deleteProductCategory/:id`,(req,res)=>{
         console.log(req.params.id)
         let id = req.params.id;
-console.log("blabla")
+
         product.deleteMany({productCategoryId: id}, function(err, data){
             if(err){
                 console.log(err);
@@ -333,7 +335,7 @@ console.log("blabla")
                 console.log("No record found")
                 return
             }
- console.log("dlted")
+
         })
 
                 productCategory.findOneAndRemove({_id: id}, function(err, data){
@@ -347,8 +349,13 @@ console.log("blabla")
                         console.log("No record found")
                         return
                     }
-
+                    
                     res.send(data)
+                    console.log(data);
+                    fs.unlink(`./client/public/images/${data.productCategoryName.replace(/ /g,'')}.jpg`, (err) => {
+                        if (err) throw err;
+                        console.log('path was deleted');
+                    });
                     console.log("===========deleted=============");
                     
                 })

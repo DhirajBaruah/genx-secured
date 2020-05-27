@@ -108,7 +108,7 @@ return(
 
     <div className="container">
         
-        <div className="row " style={{backgroundColor:"#e0e0e0"}}>
+        <div className="row " hidden={isAdmin} style={{backgroundColor:"#e0e0e0"}}>
           <div  style={{padding:50}}>
             <h4>You can enter new category for your products here.</h4>
             <ProductCategoryUpload categoryName={props.match.params.categoryName} isAdmin={isAdmin} />
