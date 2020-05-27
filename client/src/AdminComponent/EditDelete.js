@@ -57,6 +57,7 @@ const EditDelete = (props) => {
 }
   return (
     <Fragment >
+        <br/><br/>
        <button className="btn waves-effect waves-light blue-grey darken-1" onClick={()=>{if(window.confirm('CAUTION!!! THIS CANNOT BE RETRIEVED AFTER DELETED. DO YOU WANT TO PROCEED ?')){handleDelete()}}}>DELETE</button>
         <form hidden={props.isAdmin} onSubmit={(e)=>{handleUpdate(e)} }>
                 <label htmlFor='customFile'>Select image:</label>

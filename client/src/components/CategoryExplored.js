@@ -10,7 +10,6 @@ const CategoryExplored = (props) => {
 
 
   const [data, setData] = useState("loading");
-  const [changeit, setChangeit] = useState("kk");
   const [elements2, setElements2] = useState("");
   var elements=[];
   
@@ -55,12 +54,14 @@ const CategoryExplored = (props) => {
             elements.push(
                 <React.Fragment>
                 <div className="row" style={{backgroundColor:"#e0e0e0"}}>
-                <div className="col s8">
-                <Card explore={`listOfProducts/${res2[i].productCategoryName}`} name={ res2[i].productCategoryName  } details={ res2[i].details }/>
-                </div>
-                <div className="col s4">
-                <EditDelete productCategoryId={ res2[i]._id } categoryName={props.match.params.categoryName} />
-                </div>
+                  <div style={{padding:10}}>
+                    <div className="col s8">
+                      <Card explore={`listOfProducts/${res2[i].productCategoryName}`} name={ res2[i].productCategoryName  } details={ res2[i].details }/>
+                    </div>
+                    <div className="col s4">
+                      <EditDelete productCategoryId={ res2[i]._id } categoryName={props.match.params.categoryName} />
+                    </div>
+                  </div>
                 </div>
                 </React.Fragment>
                 );
@@ -106,11 +107,12 @@ return(
     
 
     <div className="container">
-        <h1>{changeit}</h1>
-        <div className="row" >
-         
+        
+        <div className="row " style={{backgroundColor:"#e0e0e0"}}>
+          <div  style={{padding:50}}>
+            <h4>You can enter new category for your products here.</h4>
             <ProductCategoryUpload categoryName={props.match.params.categoryName} isAdmin={isAdmin} />
-                
+          </div>      
         </div>
 
         <div className="row" >

@@ -59,7 +59,8 @@ const ProductCategoryUpload = (props) => {
         onChange={(e) =>{setDetails(e.target.value)}} 
         name="details" 
        />
-        <label htmlFor="details">Describe the category</label>
+      <label htmlFor="details">Describe the category</label>
+      <br/><br/>
         <input type="submit"/>
 
     </form>
