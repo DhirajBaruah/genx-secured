@@ -68,7 +68,7 @@ app.use(function (req, res, next) {
     next();
 });
 // //PROXY
-app.use('/*', createProxyMiddleware({ target: 'http://localhost:3000', changeOrigin: true }));
+// app.use('/*', createProxyMiddleware({ target: 'http://localhost:3000', changeOrigin: true }));
 
 
 
