@@ -42,6 +42,7 @@ const ProductCategoryUpload = (props) => {
             id='customFile'
             onChange={(e)=>{setFile(e.target.files[0]);}} 
             name="image" 
+            required
             
             
         />
@@ -50,6 +51,7 @@ const ProductCategoryUpload = (props) => {
         type="text" 
         onChange={(e) =>{setProductCategoryName(e.target.value)}} 
         name="productCAtegoryName" 
+        required
        />
         <label htmlFor="productCAtegoryName">Name of the category of products</label>
 
@@ -58,6 +60,7 @@ const ProductCategoryUpload = (props) => {
         type="text" 
         onChange={(e) =>{setDetails(e.target.value)}} 
         name="details" 
+        required
        />
       <label htmlFor="details">Describe the category</label>
       <br/><br/>

@@ -353,8 +353,11 @@ app.delete(`/deleteProductCategory/:id`,(req,res)=>{
                     res.send(data)
                     console.log(data);
                     fs.unlink(`./client/public/images/${data.productCategoryName.replace(/ /g,'')}.jpg`, (err) => {
-                        if (err) throw err;
-                        console.log('path was deleted');
+                        if (err){
+                            return res.status(500).json({ msg: 'No file uploaded' })
+                            console.log('path was deleted');
+                        } 
+                        
                     });
                     console.log("===========deleted=============");
                     

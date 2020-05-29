@@ -11,7 +11,7 @@ return(
    
         <div className="col s12 m6"  >
             <div className="card " >
-                <div className="card-image waves-effect waves-block waves-light">
+                <div className="card-image">
                 <img className="activator" style={{height:300, width:300}} src={`/images/${imageName}.jpg`} />
                 </div>
                 <div className="card-content">
