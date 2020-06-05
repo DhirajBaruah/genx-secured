@@ -20,6 +20,7 @@ import MyOrders from "./components/MyOrders";
 import {BrowserRouter, Route} from 'react-router-dom';
 import {connect} from 'react-redux'
 import {fetchUserAction} from './actions/myactions'
+import {loadUser} from './actions/authAction'
 import M from "materialize-css";
 
 
@@ -28,6 +29,7 @@ import M from "materialize-css";
 function App(props) {
   useEffect(()=>{
      props.fetch_user();
+     props.load_user();
 
     var elems = document.querySelectorAll('.sidenav');
     var instances =window.M.Sidenav.init(elems, {});
@@ -76,7 +78,8 @@ return(
 
 const mapDispathToProps = (dispatch)=>{
   return {
-    fetch_user:()=>{dispatch(fetchUserAction())}
+    fetch_user:()=>{dispatch(fetchUserAction())},
+    load_user:()=>{dispatch(loadUser())}
   }
 }
 

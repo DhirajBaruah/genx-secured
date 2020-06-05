@@ -8,6 +8,10 @@ const mongoose = require("mongoose");
 const fs = require("fs");
 const passport = require("passport");
 const fileUpload = require("express-fileupload");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const { JWT_SECRET } = require("../../util/secrets");
+const requiredLogin = require("../../middlewares/app/requiredLogin");
 require("../../models/equipments");
 require("../../models/category");
 require("../../models/product");
@@ -27,6 +31,106 @@ router.get("/", (req, res) => {
   res.json("Server is listening for requests ya");
 });
 
+/**
+ * @ route   POST app/signup
+ * @ desc    user signup
+ * @ access  Public
+ */
+router.post("/signup", async (req, res) => {
+    
+  const { fname, lname, email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(400).json({ error: "Please add all the fields" });
+  }
+
+  const savedUser = await users.findOne({ email });
+  if (savedUser) {
+    return res.status(400).json({ error: "Email is already in use" });
+  }
+
+  const hashedpassword = await bcrypt.hash(password, 12);
+
+  const user = new users({
+    fname,
+    lname,
+    email,
+    createdOn: new Date(),
+    password: hashedpassword,
+  });
+
+  const userData = await user.save();
+  const token = jwt.sign({ id: userData._id }, JWT_SECRET, {
+    expiresIn: 3600,
+  });
+
+  res.status(200).json({
+    token,
+    user: {
+      id: userData._id,
+      fname: userData.fname,
+      lname: userData.lname,
+      email: userData.email,
+    },
+  });
+});
+
+/**
+ * @ route   POST app/signin
+ * @ desc    user signin.
+ * @ access  public
+ */
+router.post("/signin", async (req, res) => {
+  const { email, password } = req.body;
+  if (!email || !password) {
+    return res.status(400).json({ error: "Please add email and password" });
+  }
+
+  const savedUser = await users.findOne({ email });
+  if (!savedUser) {
+    return res.status(400).json({ error: "Invalid credentials" });
+  }
+
+  const isPasswordValid = await bcrypt.compare(password, savedUser.password);
+  if (isPasswordValid) {
+    const token = jwt.sign({ id: savedUser._id }, JWT_SECRET);
+    res.status(200).json({
+      token,
+      user: {
+        id: savedUser._id,
+        fname: savedUser.fname,
+        lname: savedUser.lname,
+        email: savedUser.email,
+      },
+    });
+  } else {
+    return res.status(400).json({ error: "Invalid credentials" });
+  }
+});
+
+/**
+ * @route   GET app/user
+ * @desc    Get user data
+ * @access  Private
+ */
+
+router.get("/user", requiredLogin, async (req, res) => {
+  try {
+    const user = await users.findById(req.user.id).select("-password");
+    if (!user) {
+      return res.status(400).json({ error: "User Does not exist" });
+    }
+    res.json(user);
+  } catch (e) {
+    res.status(400).json({ msg: e.message });
+  }
+});
+
+/**
+ * @ route   POST app/placeOrder
+ * @ desc    To place orders
+ * @ access  Public
+ */
 router.post("/placeOrder", (req, res) => {
   let userId = req.body.userId;
   let addressId = req.body.addressId;
@@ -56,9 +160,7 @@ router.post("/placeOrder", (req, res) => {
 });
 
 router.get("/a", (req, res) => {
-   
   users.find({}, function (err, data) {
-    
     if (err) {
       console.log(err);
       return;
@@ -74,7 +176,6 @@ router.get("/a", (req, res) => {
 });
 
 router.get("/categoryExplored/:categoryName", (req, res) => {
-  
   let categoryName = req.params.categoryName;
   category.find({ categoryName: categoryName }, function (err, data) {
     if (err) {

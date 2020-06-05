@@ -50,7 +50,7 @@ passport.use(
       console.log(username);
       console.log(password);
 
-      users.findOne({ usernameForAdmin: username }, function (err, user) {
+      users.findOne({ email: username }, function (err, user) {
         if (err) {
           return done(err);
         }

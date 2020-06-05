@@ -6,12 +6,14 @@ import * as serviceWorker from './serviceWorker';
 import {createStore,combineReducers,compose, applyMiddleware} from 'redux';
 import {Provider} from 'react-redux';
 import {authReducer} from './reducers/authReducer';
+import {errorReducer} from './reducers/errorReducer';
 import thunk from 'redux-thunk';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
 const rootReducer = combineReducers({
     auth:authReducer,
+    error:errorReducer
    
 })
 

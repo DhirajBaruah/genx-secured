@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+import { logout } from '../actions/authAction';
 import "../stickyNav.css";
 const Navbar = (props) => {
   const renderContent = () => {
@@ -33,7 +34,7 @@ const Navbar = (props) => {
           return (
             <React.Fragment>
               <li>
-                <a href="/app/logout">logout</a>
+                <a  onClick={()=>props.logout()}>logout</a>
               </li>
               <li>
                 <Link to="/profile">profile</Link>
@@ -123,4 +124,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(Navbar);
+export default connect(mapStateToProps, { logout })(Navbar);

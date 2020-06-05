@@ -20,7 +20,7 @@ const ProductExplored = (props) => {
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
-    console.log(props.user);
+   
 
     fetch(`/app/productExplored/${props.match.params.productId}`, {
       headers: {

@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "format":"cross-env prettier --write \"**/*.{js,json,md}\"", 
+    "format": "cross-env prettier --write \"**/*.{js,json,md}\"",
     "start": "SET NODE_ENV=development && nodemon server.js",
     "client": "npm start --prefix client",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
@@ -13,6 +13,7 @@
   "author": "Dhiraj Baruah",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "connect-flash": "^0.1.1",
     "cookie-parser": "^1.4.5",
@@ -22,6 +23,7 @@
     "express-fileupload": "^1.1.7-alpha.1",
     "express-session": "^1.17.0",
     "http-proxy-middleware": "^1.0.3",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.4",
     "passport": "^0.4.1",
     "passport-google-oauth20": "^2.0.0",
