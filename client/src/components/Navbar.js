@@ -1,17 +1,26 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { logout } from '../actions/authAction';
+import { logout } from "../actions/authAction";
 import "../stickyNav.css";
 const Navbar = (props) => {
   const renderContent = () => {
-    switch (props.user) {
-      case null:
+    switch (props.user.isAuthenticated) {
+      case true:
         return (
-          <li>
-            <Link to="/#">Loading...</Link>
-          </li>
+          <React.Fragment>
+            <li>
+              <a onClick={() => props.logout()}>logout</a>
+            </li>
+            <li>
+              <Link to="/profile">profile</Link>
+            </li>
+            <li>
+              <Link to={`/Wishlist/${props.user._id}`}>Wishlist</Link>
+            </li>
+          </React.Fragment>
         );
+
       case false:
         return (
           <li>
@@ -19,32 +28,11 @@ const Navbar = (props) => {
           </li>
         );
       default:
-        if (props.user.status == "admin") {
-          return (
-            <React.Fragment>
-              <li>
-                <a href="/app/logout">LOGOUT</a>
-              </li>
-              <li>
-                <Link to="/allOrders">ALL ORDERS</Link>
-              </li>
-            </React.Fragment>
-          );
-        } else {
-          return (
-            <React.Fragment>
-              <li>
-                <a  onClick={()=>props.logout()}>logout</a>
-              </li>
-              <li>
-                <Link to="/profile">profile</Link>
-              </li>
-              <li>
-                <Link to={`/Wishlist/${props.user._id}`}>Wishlist</Link>
-              </li>
-            </React.Fragment>
-          );
-        }
+        return (
+          <li>
+            <Link to="/#">Loading...</Link>
+          </li>
+        );
     }
   };
 

@@ -6,6 +6,20 @@ import { withRouter } from "react-router-dom";
 const ModeOfPayment = (props) => {
   const [mode, setMode] = useState("");
 
+  const token = props.user.token;
+
+  // Headers
+  const config = {
+    headers: {
+      "Content-type": "application/json",
+    },
+  };
+
+  // If token, add to headers
+  if (token) {
+    config.headers["x-auth-token"] = token;
+  }
+
   const placeOrder = () => {
     if (mode === "cod") {
       const formData = new FormData();
@@ -18,10 +32,10 @@ const ModeOfPayment = (props) => {
       formData.append("status", "pending");
 
       axios
-        .post("/app/placeOrder", formData, (req, res) => {})
+        .post("/app/placeOrder", formData,config, (req, res) => {})
         .then((res) => {
           console.log(res);
-          if (res.success == true) {
+          if (res.data.success == true) {
             props.history.push(`/myOrders/${props.user._id}`);
           }
         });
@@ -31,7 +45,7 @@ const ModeOfPayment = (props) => {
   };
 
   const renderContent = () => {
-    switch (props.user) {
+    switch (props.user.isAuthenticated) {
       case null:
         return <a href="/">loading</a>;
       case false:
@@ -41,7 +55,7 @@ const ModeOfPayment = (props) => {
           </React.Fragment>
         );
 
-      default:
+      case true:
         return (
           <React.Fragment>
             <div className="row">
@@ -83,6 +97,12 @@ const ModeOfPayment = (props) => {
                 Continue
               </a>
             </div>
+          </React.Fragment>
+        );
+      default:
+        return (
+          <React.Fragment>
+            <h1>Please Login</h1>
           </React.Fragment>
         );
     }

@@ -1,5 +1,5 @@
 const initialState = {
-  token: localStorage.getItem("token"),
+  token: localStorage.getItem('token'),
   isAuthenticated: null,
   isLoading: false,
   user: null,
@@ -17,6 +17,7 @@ export const authReducer = (state = initialState, action) => {
         isAuthenticated: true,
         isLoading: false,
         user: action.payload,
+        token: localStorage.getItem('token'),
       };
     case "LOGIN_SUCCESS":
     case "REGISTER_SUCCESS":

@@ -20,12 +20,18 @@ require("../../models/users");
 require("../../models/userAuthCredentials");
 require("../../models/carts");
 require("../../models/wishlists");
+require("../../models/addresses");
+require("../../models/carts");
+require("../../models/orders");
 const category = mongoose.model("category");
 const equipments = mongoose.model("equipments");
 const product = mongoose.model("product");
 const productCategory = mongoose.model("productCategory");
 const users = mongoose.model("users");
 const userAuthCredentials = mongoose.model("userAuthCredentials");
+const addresses = mongoose.model("addresses");
+const carts = mongoose.model("carts");
+const orders = mongoose.model("orders");
 
 router.get("/", (req, res) => {
   res.json("Server is listening for requests ya");
@@ -122,7 +128,7 @@ router.get("/user", requiredLogin, async (req, res) => {
     }
     res.json(user);
   } catch (e) {
-    res.status(400).json({ msg: e.message });
+    res.status(400).json({ error: e.message });
   }
 });
 
@@ -131,8 +137,8 @@ router.get("/user", requiredLogin, async (req, res) => {
  * @ desc    To place orders
  * @ access  Public
  */
-router.post("/placeOrder", (req, res) => {
-  let userId = req.body.userId;
+router.post("/placeOrder", requiredLogin, (req, res) => {
+  let userId = req.user.id;
   let addressId = req.body.addressId;
   let productId = req.body.productId;
   let quantity = req.body.quantity;
@@ -151,7 +157,7 @@ router.post("/placeOrder", (req, res) => {
   });
   x.save((err) => {
     if (err) {
-      return res.status(422).send(err);
+      return res.status(500).send(err);
     }
     res.json({
       success: true,
@@ -159,21 +165,21 @@ router.post("/placeOrder", (req, res) => {
   });
 });
 
-router.get("/a", (req, res) => {
-  users.find({}, function (err, data) {
-    if (err) {
-      console.log(err);
-      return;
-    }
+// router.get("/a", (req, res) => {
+//   users.find({}, function (err, data) {
+//     if (err) {
+//       console.log(err);
+//       return;
+//     }
 
-    if (data.length == 0) {
-      console.log("No record found");
-      return;
-    }
-    console.log(data);
-    res.json(data);
-  });
-});
+//     if (data.length == 0) {
+//       console.log("No record found");
+//       return;
+//     }
+//     console.log(data);
+//     res.json(data);
+//   });
+// });
 
 router.get("/categoryExplored/:categoryName", (req, res) => {
   let categoryName = req.params.categoryName;
@@ -348,25 +354,25 @@ router.get("/logout", (req, res) => {
 // })
 
 // Upload Image
-router.post("/upload/:id", (req, res) => {
-  if (req.files === null) {
-    return res.status(400).json({ msg: "No file uploaded" });
-  }
+// router.post("/upload/:id", (req, res) => {
+//   if (req.files === null) {
+//     return res.status(400).json({ msg: "No file uploaded" });
+//   }
 
-  const file = req.files.file;
-  const id = req.params.id;
+//   const file = req.files.file;
+//   const id = req.params.id;
 
-  file.mv(`./client/public/images/${id}.jpg`, (err) => {
-    if (err) {
-      console.error(err);
-      return res.status(500).send(err);
-    }
-  });
-});
+//   file.mv(`./client/public/images/${id}.jpg`, (err) => {
+//     if (err) {
+//       console.error(err);
+//       return res.status(500).send(err);
+//     }
+//   });
+// });
 
-router.post("/addToCart", (req, res) => {
-  console.log("running addToCart");
-  let userId = req.body.userId;
+router.post("/addToCart", requiredLogin, (req, res) => {
+
+  let userId = req.user.id;
   let addressId = req.body.addressId;
   let productId = req.body.productId;
   let quantity = req.body.quantity;
@@ -414,8 +420,8 @@ router.post("/addToCart", (req, res) => {
   });
 });
 
-router.get("/getCart", (req, res) => {
-  let userId = req.body.userId;
+router.get("/getCart", requiredLogin, (req, res) => {
+  let userId = req.user.id;
 
   carts.find({ userId: userId }, (err, data) => {
     if (err) {
@@ -425,8 +431,8 @@ router.get("/getCart", (req, res) => {
   });
 });
 
-router.delete("/RemoveFromCart", (req, res) => {
-  let userId = req.body.userId;
+router.delete("/RemoveFromCart", requiredLogin, (req, res) => {
+  let userId = req.user.id;
   let productId = req.body.productId;
 
   carts.findOneAndRemove(
@@ -441,8 +447,8 @@ router.delete("/RemoveFromCart", (req, res) => {
 });
 
 //////////////////WISHLIST
-router.post("/addToWishlists", (req, res) => {
-  let userId = req.body.userId;
+router.post("/addToWishlists", requiredLogin, (req, res) => {
+  let userId = req.user.id;
   let productId = req.body.productId;
 
   let x = new wishlists({ userId, productId });
@@ -454,8 +460,8 @@ router.post("/addToWishlists", (req, res) => {
   });
 });
 
-router.post("/getWishlists/:userId", (req, res) => {
-  let userId = req.params.userId;
+router.post("/getWishlists/:userId", requiredLogin, (req, res) => {
+  let userId = req.user.id;
   console.log(userId);
 
   wishlists
@@ -477,19 +483,21 @@ router.post("/getWishlists/:userId", (req, res) => {
     });
 });
 
-router.post(`/getDataOfAddresses/:userId`, (req, res) => {
-  let userId = req.params.userId;
+router.get(`/getDataOfAddresses`,requiredLogin, (req, res) => {
+
+  userId=req.user.id
   addresses.find({ userId: userId }, (err, data) => {
     if (err) {
+      console.log(`address ${err}`);
       return res.status(422).send(err);
     }
     res.send(data);
+    
   });
 });
 
 router.post(`/getDataOfProducts/:productId`, (req, res) => {
   let productId = req.params.productId;
-  console.log(productId);
   product.find({ _id: productId }, (err, data) => {
     if (err) {
       return res.status(422).send(err);
@@ -498,8 +506,8 @@ router.post(`/getDataOfProducts/:productId`, (req, res) => {
   });
 });
 
-router.delete("/RemoveFromWishlists", (req, res) => {
-  let userId = req.body.userId;
+router.delete("/RemoveFromWishlists", requiredLogin, (req, res) => {
+  let userId = req.user.id;
   let productId = req.body.productId;
 
   wishlists.findOneAndRemove(

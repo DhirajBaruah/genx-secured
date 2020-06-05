@@ -8,11 +8,21 @@ import { connect } from "react-redux";
 import Signup from "./Signup";
 import ProductImageUpload from "../AdminComponent/ProductImageUpload";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
+import { register } from "../actions/authAction";
+import { login } from "../actions/authAction";
+import { clearErrors } from "../actions/errorAction";
+
 
 Modal.setAppElement("#root");
-
-const ProductExplored = (props) => {
+//for reg/login
+  const ProductExplored = (props) => {
+  const [fname, setfname] = useState("");
+  const [lname, setlname] = useState("");
+  const [email, setemail] = useState("");
+  const [password, setpassword] = useState("");
+  const [msg, setmsg] = useState(null);
+  //for this comp
   const [photoIndex, setPhotoIndex] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
   const [data, setData] = useState("loading");
@@ -20,8 +30,6 @@ const ProductExplored = (props) => {
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
-   
-
     fetch(`/app/productExplored/${props.match.params.productId}`, {
       headers: {
         "Content-Type": "application/json",
@@ -39,6 +47,22 @@ const ProductExplored = (props) => {
         ]);
       });
   }, []);
+    useEffect(() => {
+    // Check for register error
+    if (props.error.id === "REGISTER_FAIL") {
+      setmsg(props.error.msg.error);
+    } else if (props.error.id === "LOGIN_FAIL") {
+      setmsg(props.error.msg.error);
+    } else {
+      setmsg(null);
+    }
+
+    // If authenticated, go home
+
+    if (props.isAuthenticated) {
+      setShowModal(false)
+    }
+  }, [props.error, props.isAuthenticated]);
 
   const addToWishlist = () => {
     const formData = new FormData();
@@ -53,9 +77,7 @@ const ProductExplored = (props) => {
   };
 
   const renderContent = () => {
-    switch (props.user) {
-      case null:
-        return <a href="/">loading</a>;
+    switch (props.user.isAuthenticated) {
       case false:
         return (
           <React.Fragment>
@@ -75,7 +97,7 @@ const ProductExplored = (props) => {
           </React.Fragment>
         );
 
-      default:
+      case true:
         return (
           <React.Fragment>
             <Link
@@ -88,6 +110,24 @@ const ProductExplored = (props) => {
               style={{ marginLeft: 20 }}
               className="btn waves-effect waves-light blue-grey darken-1"
               onClick={() => addToWishlist()}
+            >
+              <i class="material-icons left">add_shopping_cart</i>Wishlist
+            </a>
+          </React.Fragment>
+        );
+      default:
+        return (
+          <React.Fragment>
+            <a
+              className=" btn modal-trigger"
+              onClick={() => setShowModal(true)}
+            >
+              <i class="material-icons left">fitness_center</i>Buy Now
+            </a>
+            <a
+              style={{ marginLeft: 20 }}
+              className=" btn modal-trigger"
+              onClick={() => setShowModal(true)}
             >
               <i class="material-icons left">add_shopping_cart</i>Wishlist
             </a>
@@ -203,7 +243,155 @@ const ProductExplored = (props) => {
         >
           <i class="material-icons left">close</i>
         </button>
-        <Signup />
+            <div>
+      {msg ? alert(`${msg}`) : null}
+      <div className="row">
+        <div className="col s6" style={{ textAlign: "center" }}>
+          <h3>SIGN UP</h3>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              //Attempt to register
+              props.register(fname, lname, email, password);
+            }}
+            className="col s7"
+            style={{
+              marginLeft: 200,
+            }}
+          >
+            <div className="row">
+              <div className="input-field col s12">
+                <input
+                  onChange={(e) => {
+                    setemail(e.target.value);
+                    props.clearErrors();
+                  }}
+                  id="email"
+                  type="email"
+                  name="email"
+                  className="validate"
+                />
+                <label htmlFor="email">Email</label>
+              </div>
+            </div>
+
+            <div className="row">
+              <div className="input-field col s12">
+                <input
+                  onChange={(e) => setpassword(e.target.value)}
+                  id="password"
+                  type="password"
+                  name="password"
+                  className="validate"
+                />
+                <label htmlFor="password">Password</label>
+              </div>
+            </div>
+            <div className="row">
+              <div className="input-field col s12">
+                <input
+                  onChange={(e) => setfname(e.target.value)}
+                  id="fname"
+                  type="text"
+                  name="fname"
+                  className="validate"
+                />
+                <label htmlFor="password">First name</label>
+              </div>
+            </div>
+            <div className="row">
+              <div className="input-field col s12">
+                <input
+                  onChange={(e) => setlname(e.target.value)}
+                  id="lname"
+                  type="text"
+                  name="lname"
+                  className="validate"
+                />
+                <label htmlFor="password">Last name</label>
+              </div>
+            </div>
+
+            <button
+              className="btn waves-effect waves-light blue-grey darken-1"
+              type="submit"
+              name="action"
+            >
+              Submit
+              <i className="material-icons right">send</i>
+            </button>
+          </form>
+        </div>
+
+        <div className="col s6" style={{ textAlign: "center" }}>
+          <h3>LOGIN </h3>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              //Attempt to login
+              props.login(email, password);
+            }}
+            className="col s7"
+            style={{
+              marginLeft: 100,
+            }}
+          >
+            <div className="row">
+              <div className="input-field col s12">
+                <input
+                  onChange={(e) => {
+                    setemail(e.target.value);
+                  }}
+                  id="email"
+                  type="email"
+                  name="email"
+                  className="validate"
+                />
+                <label htmlFor="email">Email</label>
+              </div>
+            </div>
+
+            <div className="row">
+              <div className="input-field col s12">
+                <input
+                  onChange={(e) => setpassword(e.target.value)}
+                  id="password"
+                  type="password"
+                  name="password"
+                  className="validate"
+                />
+                <label htmlFor="password">Password</label>
+              </div>
+            </div>
+
+            <button
+              className="btn waves-effect waves-light blue-grey darken-1"
+              type="submit"
+              name="action"
+            >
+              Submit
+              <i className="material-icons right">send</i>
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <div className="row" style={{ textAlign: "center", paddingTop: 50 }}>
+        <a
+          className="btn waves-effect waves-light red darken-1"
+          href="/app/auth/google"
+        >
+          SIGNUP/LOGIN WITH GOOGLE{" "}
+        </a>
+        <a
+          className="btn waves-effect waves-light  blue darken-4"
+          href="/app/auth/google"
+          style={{ marginLeft: 100 }}
+        >
+          SIGNUP/LOGIN WITH FACEBOOK
+        </a>
+      </div>
+    </div>
       </Modal>
     </div>
   );
@@ -212,7 +400,9 @@ const ProductExplored = (props) => {
 const mapStateToProps = (state) => {
   return {
     user: state.auth,
+    isAuthenticated: state.auth.isAuthenticated,
+    error: state.error,
   };
 };
 
-export default connect(mapStateToProps)(ProductExplored);
+export default connect(mapStateToProps, { register, clearErrors, login })(ProductExplored);

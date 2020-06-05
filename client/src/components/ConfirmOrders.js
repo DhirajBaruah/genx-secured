@@ -7,6 +7,7 @@ import "../confirmOrders.css";
 import Modal from "react-modal";
 import "materialize-css/dist/css/materialize.min.css";
 import { withRouter } from "react-router-dom";
+import { tokenConfig } from "../actions/authAction";
 
 Modal.setAppElement("#root");
 const ConfirmOrders = (props) => {
@@ -46,37 +47,52 @@ const ConfirmOrders = (props) => {
     setselectedPinCode(pinCode);
     setselectedNation(nation);
   };
+    const token = props.user.token;
 
+    // Headers
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+      },
+    };
+
+    // If token, add to headers
+    if (token) {
+      config.headers["x-auth-token"] = token;
+    }
   useEffect(() => {
-    axios.post(`/app/getDataOfAddresses/${props.user._id}`, {}).then((response) => {
-      console.log(response);
-      for (var i = 0; i < response.data.length; i++) {
-        var id = response.data[i].nation;
 
-        element.push(
-          <React.Fragment>
-            <CardAddress
-              addressLine1={response.data[i].addressLine1}
-              addressLine2={response.data[i].addressLine2}
-              city={response.data[i].city}
-              nation={response.data[i].nation}
-              pinCode={response.data[i].pinCode}
-              state={response.data[i].state}
-              id={response.data[i]._id}
-              changeAddress={changeAddress}
-              selectedAddress={selectedAddress}
-            />
-          </React.Fragment>
-        );
-      }
+    axios
+      .get(`/app/getDataOfAddresses`,config)
+      .then((response) => {
+     
+        for (var i = 0; i < response.data.length; i++) {
+          var id = response.data[i].nation;
 
-      setDataOfAddresses(element);
-    });
+          element.push(
+            <React.Fragment>
+              <CardAddress
+                addressLine1={response.data[i].addressLine1}
+                addressLine2={response.data[i].addressLine2}
+                city={response.data[i].city}
+                nation={response.data[i].nation}
+                pinCode={response.data[i].pinCode}
+                state={response.data[i].state}
+                id={response.data[i]._id}
+                changeAddress={changeAddress}
+                selectedAddress={selectedAddress}
+              />
+            </React.Fragment>
+          );
+        }
+
+        setDataOfAddresses(element);
+      })
+      .catch((error) => console.log(error));
 
     axios
       .post(`/app/getDataOfProducts/${props.match.params.productId}`, {})
       .then((response2) => {
-        console.log(response2);
         //   for(var i=0; i<response2.data.length; i++){
 
         //         element.push(<CardProductForConfirmOrders
@@ -117,29 +133,27 @@ const ConfirmOrders = (props) => {
   };
 
   const addToCart = () => {
+  
     const formData = new FormData();
-    formData.append("userId", props.user._id);
     formData.append("addressId", AddressId);
     formData.append("productId", props.match.params.productId);
     formData.append("quantity", qty);
     formData.append("payableAmount", total);
 
     axios
-      .post("/app/addToCart", formData, (req, res) => {})
+      .post("/app/addToCart", formData,config, (req, res) => {})
       .then((res) => {
         console.log(res);
         if (res.status == 200) {
           props.history.push(
-            `/app/modeOfPayment/${props.user._id}/${AddressId}/${props.match.params.productId}/${qty}/${total}`
+            `/modeOfPayment/${props.user.user._id}/${AddressId}/${props.match.params.productId}/${qty}/${total}`
           );
         }
       });
   };
 
   const renderContent = () => {
-    switch (props.user) {
-      case null:
-        return <a href="/">loading</a>;
+    switch (props.user.isAuthenticated) {
       case false:
         return (
           <React.Fragment>
@@ -147,7 +161,7 @@ const ConfirmOrders = (props) => {
           </React.Fragment>
         );
 
-      default:
+      case true:
         return (
           <React.Fragment>
             <h4>{AddressId}</h4>
@@ -203,6 +217,12 @@ const ConfirmOrders = (props) => {
             </Modal>
           </React.Fragment>
         );
+      default:
+        return (
+          <React.Fragment>
+            <h1>Please Login</h1>
+          </React.Fragment>
+        );
     }
   };
 
@@ -215,4 +235,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(ConfirmOrders);
+export default connect(mapStateToProps, { tokenConfig })(ConfirmOrders);

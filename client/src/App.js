@@ -57,7 +57,7 @@ return(
         <Route path='/contact' component={Contact}/>
         <Route path='/product' component={Product}/>
         <Route path='/enquiry' component={Enquiry}/>
-        <Route path='/signup' component={Signup}/>
+        <Route path='/signup' component= {props.user.isAuthenticated ? Home : Signup} />
         <Route path='/categoryExplored/:categoryName' component={CategoryExplored}/>
         <Route path='/listOfProducts/:id' component={ListOfProducts}/>
         <Route path='/ProductExplored/:productId' component={ProductExplored}/>
@@ -82,5 +82,10 @@ const mapDispathToProps = (dispatch)=>{
     load_user:()=>{dispatch(loadUser())}
   }
 }
+const mapStateToProps = (state) => {
+  return {
+    user: state.auth,
+  };
+};
 
-export default connect(null,mapDispathToProps)(App);
+export default connect(mapStateToProps,mapDispathToProps)(App);

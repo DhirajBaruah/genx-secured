@@ -7,7 +7,7 @@ const MyOrders = (props) => {
   useEffect(() => {}, []);
 
   const renderContent = () => {
-    switch (props.user) {
+    switch (props.user.isAuthenticated) {
       case null:
         return <a href="/">loading</a>;
       case false:
@@ -17,10 +17,16 @@ const MyOrders = (props) => {
           </React.Fragment>
         );
 
-      default:
+      case true:
         return (
           <React.Fragment>
             <h1>Order Success</h1>
+          </React.Fragment>
+        );
+      default:
+        return (
+          <React.Fragment>
+            <h1>Please Login</h1>
           </React.Fragment>
         );
     }
