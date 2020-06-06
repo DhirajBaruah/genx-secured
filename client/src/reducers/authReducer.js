@@ -1,5 +1,5 @@
 const initialState = {
-  token: localStorage.getItem('token'),
+  // token: localStorage.getItem('token'),
   isAuthenticated: null,
   isLoading: false,
   user: null,
@@ -17,11 +17,11 @@ export const authReducer = (state = initialState, action) => {
         isAuthenticated: true,
         isLoading: false,
         user: action.payload,
-        token: localStorage.getItem('token'),
+        // token: localStorage.getItem('token'),
       };
     case "LOGIN_SUCCESS":
     case "REGISTER_SUCCESS":
-      localStorage.setItem("token", action.payload.token);
+      // localStorage.setItem("token", action.payload.token);
       return {
         ...state,
         ...action.payload,
@@ -31,11 +31,11 @@ export const authReducer = (state = initialState, action) => {
     case "AUTH_ERROR":
     case "LOGIN_FAIL":
     case "REGISTER_FAIL":
-    case "LOGOUT_SUCCESS":
-    localStorage.removeItem('token');
+    case "LOGOUT_SUCCESS":///////////*******Remove Cookie */
+    // localStorage.removeItem('token');
       return {
         ...state,
-        token: null,
+        // token: null,
         user: null,
         isAuthenticated: false,
         isLoading: false,

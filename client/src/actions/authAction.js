@@ -28,6 +28,7 @@ export const register = ( fname, lname, email, password ) => (dispatch) => {
     headers: {
       "Content-Type": "application/json",
     },
+    credentials:'include'
   };
   //Request body
   const body = JSON.stringify({ fname, lname, email, password });
@@ -57,6 +58,7 @@ export const login = ( email, password ) => (dispatch) => {
     headers: {
       "Content-Type": "application/json",
     },
+    credentials:'include',
   };
   //Request body
   const body = JSON.stringify({ email, password });
@@ -81,26 +83,38 @@ export const login = ( email, password ) => (dispatch) => {
 // Setup config/headers and token
 export const tokenConfig = (getState) => {
   // Get token from localstorage
-  const token = getState().auth.token;
+  // const token = getState().auth.token;
 
   // Headers
   const config = {
     headers: {
       "Content-type": "application/json",
     },
+    credentials:'include',
   };
 
   // If token, add to headers
-  if (token) {
-    config.headers["x-auth-token"] = token;
-  }
+  // if (token) {
+  //   config.headers["x-auth-token"] = token;
+  // }
 
   return config;
 };
 
 // Logout User
-export const logout = () => {
-  return {
-    type: "LOGOUT_SUCCESS"
-  };
+export const logout  = () => (dispatch, getState) => {
+ 
+    axios
+    .post("/app/logoutUser", tokenConfig(getState))
+    .then((res) =>
+      dispatch({
+         type: "LOGOUT_SUCCESS" 
+      })
+    )
+    .catch((err) => {
+      dispatch(returnErrors(err.response.data, err.response.status));
+      dispatch({
+        type: "AUTH_ERROR",
+      });
+    });
 };

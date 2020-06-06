@@ -4,7 +4,8 @@ const { JWT_SECRET } = require("../../util/secrets");
 const users = mongoose.model("users");
 
 module.exports = (req, res, next) => {
-  const token = req.header("x-auth-token");
+  // const token = req.header("x-auth-token");
+  const token = req.cookies.token;
  
   // Check for token
   if (!token)

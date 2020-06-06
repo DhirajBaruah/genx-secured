@@ -6,19 +6,20 @@ import { withRouter } from "react-router-dom";
 const ModeOfPayment = (props) => {
   const [mode, setMode] = useState("");
 
-  const token = props.user.token;
+  // const token = props.user.token;
 
   // Headers
   const config = {
     headers: {
       "Content-type": "application/json",
     },
+    credentials:'include'
   };
 
   // If token, add to headers
-  if (token) {
-    config.headers["x-auth-token"] = token;
-  }
+  // if (token) {
+  //   config.headers["x-auth-token"] = token;
+  // }
 
   const placeOrder = () => {
     if (mode === "cod") {

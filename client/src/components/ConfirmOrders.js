@@ -47,19 +47,20 @@ const ConfirmOrders = (props) => {
     setselectedPinCode(pinCode);
     setselectedNation(nation);
   };
-    const token = props.user.token;
+    // const token = props.user.token;
 
     // Headers
     const config = {
       headers: {
         "Content-type": "application/json",
       },
+      credentials:'include',
     };
 
     // If token, add to headers
-    if (token) {
-      config.headers["x-auth-token"] = token;
-    }
+    // if (token) {
+    //   config.headers["x-auth-token"] = token;
+    // }
   useEffect(() => {
 
     axios
@@ -152,6 +153,7 @@ const ConfirmOrders = (props) => {
       });
   };
 
+
   const renderContent = () => {
     switch (props.user.isAuthenticated) {
       case false:
@@ -204,6 +206,7 @@ const ConfirmOrders = (props) => {
             >
               Continue
             </button>
+
 
             <Modal isOpen={showModal} contentLabel="Minimal Modal Example">
               <button

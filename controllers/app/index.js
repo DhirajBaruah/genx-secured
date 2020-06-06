@@ -12,6 +12,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = require("../../util/secrets");
 const requiredLogin = require("../../middlewares/app/requiredLogin");
+const cookieParser = require("cookie-parser");
 require("../../models/equipments");
 require("../../models/category");
 require("../../models/product");
@@ -43,7 +44,6 @@ router.get("/", (req, res) => {
  * @ access  Public
  */
 router.post("/signup", async (req, res) => {
-    
   const { fname, lname, email, password } = req.body;
 
   if (!email || !password) {
@@ -70,8 +70,11 @@ router.post("/signup", async (req, res) => {
     expiresIn: 3600,
   });
 
+  res.cookie("token", token, {
+    httpOnly: true,
+  });
   res.status(200).json({
-    token,
+    // token,
     user: {
       id: userData._id,
       fname: userData.fname,
@@ -100,8 +103,13 @@ router.post("/signin", async (req, res) => {
   const isPasswordValid = await bcrypt.compare(password, savedUser.password);
   if (isPasswordValid) {
     const token = jwt.sign({ id: savedUser._id }, JWT_SECRET);
+
+    res.cookie("token", token, {
+      httpOnly: true,
+    });
+
     res.status(200).json({
-      token,
+      // token,
       user: {
         id: savedUser._id,
         fname: savedUser.fname,
@@ -116,8 +124,8 @@ router.post("/signin", async (req, res) => {
 
 /**
  * @route   GET app/user
- * @desc    Get user data
- * @access  Private
+ *  @des    Get user data
+ *  @acces  Private
  */
 
 router.get("/user", requiredLogin, async (req, res) => {
@@ -130,6 +138,20 @@ router.get("/user", requiredLogin, async (req, res) => {
   } catch (e) {
     res.status(400).json({ error: e.message });
   }
+});
+
+/**
+ * @ route   POST app/logoutUser
+ * @ desc    To logout
+ * @ access  Private
+ */
+router.post("/logoutUser", requiredLogin,  (req, res) => {
+  res.cookie("token", 123, {
+      httpOnly: true,
+    });
+    console.log("loggedout")
+
+    res.status(200).json({msg: "Logged out successfully"})
 });
 
 /**
@@ -308,7 +330,7 @@ router.get("/current_session", (req, res) => {
   console.log(req.session);
 });
 
-router.get("/logout", (req, res) => {
+router.get("/User", (req, res) => {
   req.logout();
   res.redirect("/");
 });
@@ -371,7 +393,6 @@ router.get("/logout", (req, res) => {
 // });
 
 router.post("/addToCart", requiredLogin, (req, res) => {
-
   let userId = req.user.id;
   let addressId = req.body.addressId;
   let productId = req.body.productId;
@@ -483,16 +504,14 @@ router.post("/getWishlists/:userId", requiredLogin, (req, res) => {
     });
 });
 
-router.get(`/getDataOfAddresses`,requiredLogin, (req, res) => {
-
-  userId=req.user.id
+router.get(`/getDataOfAddresses`, requiredLogin, (req, res) => {
+  userId = req.user.id;
   addresses.find({ userId: userId }, (err, data) => {
     if (err) {
       console.log(`address ${err}`);
       return res.status(422).send(err);
     }
     res.send(data);
-    
   });
 });
 
