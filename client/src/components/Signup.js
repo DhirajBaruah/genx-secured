@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { register } from "../actions/authAction";
-import { login } from "../actions/authAction";
-import { clearErrors } from "../actions/errorAction";
+import { register } from "../redux/app/actions/authAction";
+import { login } from "../redux/app/actions/authAction";
+import { clearErrors } from "../redux/app/actions/errorAction";
 import { withRouter } from "react-router-dom";
 
 const Signup = (props) => {
@@ -28,9 +28,19 @@ const Signup = (props) => {
       props.history.push(`/`);
     }
   }, [props.error, props.isAuthenticated]);
+
+  // Clear msg
+   const showMessage = (msg) => {
+    if (window.confirm(`${msg}`)) {
+      props.clearErrors();
+    } else {
+      props.clearErrors();
+    }
+  };
+
   return (
     <div>
-      {msg ? alert(`${msg}`) : null}
+      {msg ? showMessage(msg) : null}
       <div className="row">
         <div className="col s6" style={{ textAlign: "center" }}>
           <h3>SIGN UP</h3>

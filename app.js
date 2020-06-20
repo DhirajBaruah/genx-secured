@@ -13,6 +13,7 @@ const fileUpload = require("express-fileupload");
 const { MONGO_URI } = require("./util/secrets");
 const { COOKIE_KEY } = require("./util/secrets");
 require("./models/equipments");
+require("./models/admins");
 require("./models/category");
 require("./models/product");
 require("./models/productCategory");
@@ -25,7 +26,7 @@ require("./models/orders");
 require("./services/passport");
 mongoose.connect(
   MONGO_URI,
-  { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true },
+  { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false },
   () => {
     console.log("connected to db");
   }

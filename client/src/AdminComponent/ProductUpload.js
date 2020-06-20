@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import axios from "axios";
 import { withRouter } from "react-router-dom";
 
@@ -12,6 +12,59 @@ const ProductUpload = (props) => {
   const [price, setPrice] = useState("");
   const [weight, setWeight] = useState("");
   const [length, setLength] = useState("");
+  const [dropdown, setdropdown] = useState("");
+  const [categoryId, setcategoryId] = useState("c");
+  const element = [];
+  const [dropdownPC, setdropdownPC] = useState("");
+  const [productCategoryId, setproductCategoryId] = useState("c");
+  const element2 = [];
+
+  useEffect(() => {
+    // fetch categoryname
+    const getCatName = async () => {
+      try {
+        const response = await axios.get("/app/category");
+
+        await response.data.map((category) =>
+          element.push(
+            <option value={category.categoryName}>
+              {category.categoryName}
+            </option>
+          )
+        );
+        await setdropdown(element);
+        // imitialize dropdown
+        var elems = document.querySelectorAll("select");
+        var instances = window.M.FormSelect.init(elems, {});
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getCatName();
+  }, []);
+
+  useEffect(() => {
+    // fetch categoryname
+    const getProdCatName = async () => {
+      try {
+        const response = await axios.get(`/app/categoryExplored/${categoryId}`);
+        await response.data.map((prodCategory) => {
+          element2.push(
+            <option value={prodCategory._id}>
+              {prodCategory.productCategoryName}
+            </option>
+          );
+        });
+        await setdropdownPC(element2);
+        // imitialize dropdown
+        var elems = document.getElementById("select2");
+        var instances = window.M.FormSelect.init(elems, {});
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getProdCatName();
+  }, [categoryId]);
 
   const handleSubmitImage = (e) => {
     e.preventDefault();
@@ -21,31 +74,59 @@ const ProductUpload = (props) => {
     formData.append("file3", file3);
     formData.append("file4", file4);
     formData.append("productName", productName);
+    formData.append("productCategoryId", productCategoryId);
     formData.append("price", price);
     formData.append("specification", specification);
     formData.append("weight", weight);
     formData.append("length", length);
 
     axios
-      .post(`/admin/uploadProduct/${props.productCategoryName}`, formData, {
+      .post(`/admin/uploadProduct`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
+        credentials:'include'
       })
       .then((res2) => {
-        props.history.push(`/`);
-      });
+        alert("Succefully added the product")
+      })
+      .catch((err) =>{
+        alert(err.message);
+        console.log(err.message);
+        }
+      );
   };
 
   return (
     <Fragment>
       <form
         style={{ backgroundColor: "#e0e0e0" }}
-        hidden={props.isAdmin}
+        
         onSubmit={(e) => {
-          handleSubmitImage(e);
+          e.preventDefault();
+          if(productCategoryId=="c"){
+            alert("Please select a product category")
+          }else{
+            handleSubmitImage(e);
+          }
+          
         }}
       >
+        <select onChange={(e) => setcategoryId(e.target.value)}>
+          <option value="c">Choose category</option>
+          {dropdown}
+        </select>{" "}
+        <br />
+        <br />
+        <select
+          id="select2"
+          onChange={(e) => setproductCategoryId(e.target.value)}
+        >
+          <option value="c">Choose product category</option>
+          {dropdownPC}
+        </select>{" "}
+        <br />
+        <br />
         <label htmlFor="customFile1">Select image 1:</label>
         <input
           type="file"
@@ -94,7 +175,6 @@ const ProductUpload = (props) => {
           name="productName"
         />
         <label htmlFor="productName">Name of the products</label>
-
         <input
           id="price"
           type="text"
@@ -104,7 +184,6 @@ const ProductUpload = (props) => {
           name="price"
         />
         <label htmlFor="price">Price</label>
-
         <input
           id="specification"
           type="text"
@@ -114,7 +193,6 @@ const ProductUpload = (props) => {
           name="specification"
         />
         <label htmlFor="specification">Describe the Product</label>
-
         <input
           id="weight"
           type="text"
@@ -124,7 +202,6 @@ const ProductUpload = (props) => {
           name="weight"
         />
         <label htmlFor="weight">Weight</label>
-
         <input
           id="length"
           type="text"

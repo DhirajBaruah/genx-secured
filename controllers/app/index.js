@@ -157,7 +157,7 @@ router.post("/logoutUser", requiredLogin,  (req, res) => {
 /**
  * @ route   POST app/placeOrder
  * @ desc    To place orders
- * @ access  Public
+ * @ access  Private
  */
 router.post("/placeOrder", requiredLogin, (req, res) => {
   let userId = req.user.id;
@@ -185,6 +185,29 @@ router.post("/placeOrder", requiredLogin, (req, res) => {
       success: true,
     });
   });
+});
+
+/**
+ * @ route   GET /app/getProductCategory/productCategoryId
+ * @ desc    get a product category
+ * @ access  public
+ */
+router.get("/getProductCategory/:productCategoryId", (req, res) => {
+  let productCategoryId = req.params.productCategoryId;
+ 
+    productCategory.find({ _id: productCategoryId }, function (err, data) {
+      if (err) {
+        return res.send(err);
+      }
+
+      if (data.length == 0) {
+        console.log("No record found ");
+        return res.json({ msg: "No file uploaded" });
+      }
+
+      res.send(data);
+    });
+
 });
 
 // router.get("/a", (req, res) => {
@@ -236,13 +259,12 @@ router.get("/category", (req, res) => {
   category.find({}, function (err, data) {
     if (err) {
       console.log(err);
-      return;
+      return res.send(err);
     }
 
     if (data.length == 0) {
-      console.log(data);
       console.log("No record found");
-      return;
+      return res.send(err);
     }
 
     res.send(data);
@@ -250,21 +272,8 @@ router.get("/category", (req, res) => {
 });
 
 router.get("/listOfProducts/:yoyo", (req, res) => {
-  let paramid = req.params.yoyo;
-
-  productCategory.find({ productCategoryName: paramid }, function (err, data) {
-    if (err) {
-      console.log(err);
-      return;
-    }
-
-    if (data.length == 0) {
-      console.log(data);
-      console.log("No record found");
-      return;
-    }
-
-    let productCategoryId = data[0]._id;
+ 
+    let productCategoryId = req.params.yoyo;
     product.find({ productCategoryId: productCategoryId }, function (
       err,
       data
@@ -282,7 +291,7 @@ router.get("/listOfProducts/:yoyo", (req, res) => {
 
       res.send(data);
     });
-  });
+  
 });
 
 router.get("/productExplored/:productId", (req, res) => {

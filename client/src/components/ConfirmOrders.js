@@ -7,7 +7,7 @@ import "../confirmOrders.css";
 import Modal from "react-modal";
 import "materialize-css/dist/css/materialize.min.css";
 import { withRouter } from "react-router-dom";
-import { tokenConfig } from "../actions/authAction";
+import { tokenConfig } from "../redux/app/actions/authAction";
 
 Modal.setAppElement("#root");
 const ConfirmOrders = (props) => {

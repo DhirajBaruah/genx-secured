@@ -5,15 +5,19 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import {createStore,combineReducers,compose, applyMiddleware} from 'redux';
 import {Provider} from 'react-redux';
-import {authReducer} from './reducers/authReducer';
-import {errorReducer} from './reducers/errorReducer';
+import {authReducer} from './redux/app/reducers/authReducer';
+import {errorReducer} from './redux/app/reducers/errorReducer';
+import {authReducerAdmin} from './redux/admin/reducers/authReducerAdmin';
+import {errorReducerAdmin} from './redux/admin/reducers/errorReducerAdmin';
 import thunk from 'redux-thunk';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
 const rootReducer = combineReducers({
     auth:authReducer,
-    error:errorReducer
+    error:errorReducer,
+    authAdmin:authReducerAdmin,
+    errorAdmin:errorReducerAdmin
    
 })
 

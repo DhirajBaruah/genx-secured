@@ -55,7 +55,7 @@ const Home = () => {
           return (
             <a className="carousel-item">
               <img
-                src={`/images/${item.productCategoryName.replace(
+                src={`/images/${item._id.replace(
                   / /g,
                   ""
                 )}.jpg`}
@@ -88,7 +88,7 @@ const Home = () => {
           return (
             <a className="carousel-item" href="#one!">
               <img
-                src={`/images/${item.productCategoryName.replace(
+                src={`/images/${item._id.replace(
                   / /g,
                   ""
                 )}.jpg`}
@@ -120,7 +120,7 @@ const Home = () => {
           return (
             <a className="carousel-item" href="#one!">
               <img
-                src={`/images/${item.productCategoryName.replace(
+                src={`/images/${item._id.replace(
                   / /g,
                   ""
                 )}.jpg`}

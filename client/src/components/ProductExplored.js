@@ -9,9 +9,9 @@ import Signup from "./Signup";
 import ProductImageUpload from "../AdminComponent/ProductImageUpload";
 import axios from "axios";
 import { Link, withRouter } from "react-router-dom";
-import { register } from "../actions/authAction";
-import { login } from "../actions/authAction";
-import { clearErrors } from "../actions/errorAction";
+import { register } from "../redux/app/actions/authAction";
+import { login } from "../redux/app/actions/authAction";
+import { clearErrors } from "../redux/app/actions/errorAction";
 
 
 Modal.setAppElement("#root");
@@ -30,6 +30,12 @@ Modal.setAppElement("#root");
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
+    setImages([
+          `/images/${props.match.params.productId}1.jpg`,
+          `/images/${props.match.params.productId}2.jpg`,
+          `/images/${props.match.params.productId}3.jpg`,
+          `/images/${props.match.params.productId}4.jpg`,
+        ]);
     fetch(`/app/productExplored/${props.match.params.productId}`, {
       headers: {
         "Content-Type": "application/json",
@@ -39,12 +45,6 @@ Modal.setAppElement("#root");
       .then((res) => res.json())
       .then((res2) => {
         setData(res2);
-        setImages([
-          `/images/${res2[0].productName}1.jpg`,
-          `/images/${res2[0].productName}2.jpg`,
-          `/images/${res2[0].productName}3.jpg`,
-          `/images/${res2[0].productName}4.jpg`,
-        ]);
       });
   }, []);
     useEffect(() => {
@@ -77,7 +77,7 @@ Modal.setAppElement("#root");
   };
 
   const renderContent = () => {
-    switch (props.user.isAuthenticated) {
+    switch (props.isAuthenticated) {
       case false:
         return (
           <React.Fragment>
@@ -136,14 +136,7 @@ Modal.setAppElement("#root");
     }
   };
 
-  let isAdmin = true;
-  if (props.user) {
-    if (props.user.status == "admin") {
-      isAdmin = false;
-    } else {
-      isAdmin = true;
-    }
-  }
+
 
   return (
     <div className="container">
@@ -155,11 +148,7 @@ Modal.setAppElement("#root");
               <img
                 onClick={() => setIsOpen(true)}
                 className="responsive-img"
-                src={`/images/${data[0].productName}1.jpg`}
-              />
-              <ProductImageUpload
-                productName={data[0].productName + "1"}
-                isAdmin={isAdmin}
+                src={`/images/${props.match.params.productId}1.jpg`}
               />
             </div>
             <div className="col s6 ">
@@ -167,11 +156,7 @@ Modal.setAppElement("#root");
               <img
                 onClick={() => setIsOpen(true)}
                 className="responsive-img"
-                src={`/images/${data[0].productName}2.jpg`}
-              />
-              <ProductImageUpload
-                productName={data[0].productName + "2"}
-                isAdmin={isAdmin}
+                src={`/images/${props.match.params.productId}2.jpg`}
               />
             </div>
           </div>
@@ -181,24 +166,18 @@ Modal.setAppElement("#root");
               <img
                 onClick={() => setIsOpen(true)}
                 className="responsive-img"
-                src={`/images/${data[0].productName}3.jpg`}
+                src={`/images/${props.match.params.productId}3.jpg`}
               />
-              <ProductImageUpload
-                productName={data[0].productName + "3"}
-                isAdmin={isAdmin}
-              />
+
             </div>
             <div className="col s6 ">
               {" "}
               <img
                 onClick={() => setIsOpen(true)}
                 className="responsive-img"
-                src={`/images/${data[0].productName}4.jpg`}
+                src={`/images/${props.match.params.productId}4.jpg`}
               />
-              <ProductImageUpload
-                productName={data[0].productName + "4"}
-                isAdmin={isAdmin}
-              />
+
             </div>
           </div>
           <div class="video-container">
@@ -399,7 +378,6 @@ Modal.setAppElement("#root");
 
 const mapStateToProps = (state) => {
   return {
-    user: state.auth,
     isAuthenticated: state.auth.isAuthenticated,
     error: state.error,
   };

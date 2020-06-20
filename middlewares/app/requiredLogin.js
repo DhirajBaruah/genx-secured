@@ -23,3 +23,20 @@ module.exports = (req, res, next) => {
     res.status(400).json({ error: "Token is not valid" });
   }
 };
+
+//CNQ
+  // if (!authorization) {
+  //   return res.status(400).json({ error: "Not authorized" });
+  // }
+  // const token = authorization.replace("Bearer ", "");
+  // jwt.verify(token, JWT_SECRET, (err, payload) => {
+  //   if (err) {
+  //     return res.status(400).json({ error: "Invalid token" });
+  //   }
+
+  //   const { _id } = payload;
+  //   admins.findById(_id).then(userdata => {
+  //     req.user = userdata;
+  //     next();
+  //   });
+  // });
