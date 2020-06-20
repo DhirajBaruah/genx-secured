@@ -9,8 +9,16 @@ const AllOrders = (props) => {
   let element = [];
 
   useEffect(() => {
-    axios
-      .get("/admin/getAllOrders", {})
+    
+
+    fetch("/admin/getAllOrders", {
+      method: "get",
+     
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    })
       .then((result) => {
         console.log(result);
         for (var i = 0; i < result.data.length; i++) {
@@ -125,22 +133,20 @@ const AllOrders = (props) => {
   }, []);
 
   const renderContent = () => {
-    switch (props.user) {
+    switch (props.admin.isAuthenticatedAdmin) {
       case null:
         return <a href="/">loading</a>;
       case false:
         return <h1>Restricted Page Leave emmidiately</h1>;
+      case true:
+        return (
+          <React.Fragment>
+            <h1>Welcome Admin</h1>
+            {elements2}
+          </React.Fragment>
+        );
       default:
-        if (props.user.status == "admin") {
-          return (
-            <React.Fragment>
-              <h1>Welcome Admin</h1>
-              {elements2}
-            </React.Fragment>
-          );
-        } else {
-          return <h1>Access Denied</h1>;
-        }
+        return <h1>Restricted Page Leave emmidiately</h1>;
     }
   };
 
@@ -149,7 +155,7 @@ const AllOrders = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    user: state.auth,
+    admin: state.authAdmin,
   };
 };
 

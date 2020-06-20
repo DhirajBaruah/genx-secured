@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const Card = (props) => {
-  const imageName = props.name.replace(/ /g, "");
+  const imageName = props.imgname.replace(/ /g, "");
 
   return (
     <React.Fragment>
@@ -10,7 +10,7 @@ const Card = (props) => {
         <div className="card ">
           <div className="card-image">
             <img
-              className="activator"
+              className="activator responsive-img"
               style={{ height: 300, width: 300 }}
               src={`/images/${imageName}.jpg`}
             />

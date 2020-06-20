@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { logout } from "../actions/authAction";
+import { logout } from "../redux/app/actions/authAction";
+import { logoutAdmin } from "../redux/admin/actions/authActionAdmin";
 import "../stickyNav.css";
 const Navbar = (props) => {
+
+ 
+
   const renderContent = () => {
     switch (props.user.isAuthenticated) {
       case true:
@@ -33,6 +37,28 @@ const Navbar = (props) => {
             <Link to="/#">Loading...</Link>
           </li>
         );
+    }
+  };
+
+   const renderContentAdmin = () => {
+    switch (props.admin.isAuthenticatedAdmin) {
+      case null:
+        return renderContent();
+      case true:
+        return (
+          <React.Fragment>
+            <li>
+              <a onClick={() => props.logoutAdmin()}>LOGOUT A</a>
+            </li>
+            <li>
+              <Link to="/adminDashboard">DASHBOARD</Link>
+            </li>
+          </React.Fragment>
+        );
+      case false:
+        return renderContent();
+      default:
+        return renderContent();
     }
   };
 
@@ -100,7 +126,7 @@ const Navbar = (props) => {
         <li>
           <Link to="/career">CAREER</Link>
         </li>
-        {renderContent()}
+        {renderContentAdmin()}
       </ul>
     </React.Fragment>
   );
@@ -109,7 +135,8 @@ const Navbar = (props) => {
 const mapStateToProps = (state) => {
   return {
     user: state.auth,
+    admin: state.authAdmin,
   };
 };
 
-export default connect(mapStateToProps, { logout })(Navbar);
+export default connect(mapStateToProps, { logout, logoutAdmin })(Navbar);

@@ -25,6 +25,7 @@ const Product = () => {
             <Card
               explore={`categoryExplored/${res2[i].categoryName}`}
               name={res2[i].categoryName}
+              imgname={res2[i].categoryName}
               details={res2[i].details}
             />
           );
