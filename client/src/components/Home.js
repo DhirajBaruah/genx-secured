@@ -14,7 +14,10 @@ import { Link } from "react-router-dom";
 
 const styles = {
   textAlign: "center",
-  backgroundColor: "#ff9800",
+  // backgroundColor: "#ff9800"
+  // background: "linear-gradient(0deg, rgba(28,47,47,1) 22%, rgba(45,253,139,1) 100%)"
+  background:
+    "linear-gradient(0deg, rgba(28,47,47,1) 22%, rgba(193,44,44,1) 100%)",
 };
 const insideStyles = {
   textAlign: "center",
@@ -53,14 +56,9 @@ const Home = () => {
         console.log(response);
         const res = await response.data.map((item) => {
           return (
-            <a className="carousel-item">
-              <img
-                src={`/images/${item._id.replace(
-                  / /g,
-                  ""
-                )}.jpg`}
-              />
-            </a>
+            <Link to={`listOfProducts/${item._id}`} className="carousel-item">
+              <img className="responsive-img" style={{borderRadius:"3%"}} src={`/images/${item._id.replace(/ /g, "")}.jpg`} />
+            </Link>
           );
         });
         return res;
@@ -75,8 +73,7 @@ const Home = () => {
       .then((res) => {
         var elem = document.getElementById("carousel1");
         var instance = window.M.Carousel.init(elem, {
-          shift: 20,
-          dist: 30,
+          dist: 100,
         });
       });
 
@@ -86,14 +83,9 @@ const Home = () => {
       .then(async (response) => {
         const res = await response.data.map((item) => {
           return (
-            <a className="carousel-item" href="#one!">
-              <img
-                src={`/images/${item._id.replace(
-                  / /g,
-                  ""
-                )}.jpg`}
-              />
-            </a>
+            <Link to={`listOfProducts/${item._id}`} className="carousel-item" href="#one!">
+              <img className="responsive-img" style={{borderRadius:"3%"}} src={`/images/${item._id.replace(/ /g, "")}.jpg`} />
+            </Link>
           );
         });
         return res;
@@ -108,8 +100,7 @@ const Home = () => {
       .then(() => {
         var elem = document.getElementById("carousel2");
         var instance = window.M.Carousel.init(elem, {
-          shift: 20,
-          dist: 30,
+          dist: 100,
         });
       });
     //Accessories
@@ -118,14 +109,9 @@ const Home = () => {
       .then(async (response) => {
         const res = await response.data.map((item) => {
           return (
-            <a className="carousel-item" href="#one!">
-              <img
-                src={`/images/${item._id.replace(
-                  / /g,
-                  ""
-                )}.jpg`}
-              />
-            </a>
+            <Link to={`listOfProducts/${item._id}`} className="carousel-item" href="#one!">
+              <img className="responsive-img" style={{borderRadius:"3%"}} src={`/images/${item._id.replace(/ /g, "")}.jpg`} />
+            </Link>
           );
         });
         return res;
@@ -140,15 +126,14 @@ const Home = () => {
       .then(() => {
         var elem = document.getElementById("carousel3");
         var instance = window.M.Carousel.init(elem, {
-          shift: 20,
-          dist: 30,
+          dist: 100,
         });
       });
   }, []);
 
   return (
     <React.Fragment>
-      <div style={styles}>
+      <div style={{ background: "#1c2f2f" }}>
         <BrandLogo />
         <Parallax bgImage={logo5} strength={500}>
           <div style={{ height: 500 }}>
@@ -174,13 +159,16 @@ const Home = () => {
           </div>
         </Parallax>
 
-        <div className="row ">{listOfStrength}</div>
+        <div className="row " style={styles}>
+          {listOfStrength}
+          <Link to={`categoryExplored/Strength`}><button>Explore Strength</button></Link>
+        </div>
 
         <Parallax bgImage={logo1} strength={500}>
           <div style={{ height: 500 }}>
             <div style={{ background: (0, 0, 0, 0.5), color: "#f1f1f1" }}>
               <div class="wrapper">
-                <p id="slide" style={{ paddingTop: 280 }}>
+                <p id="slide" style={{ paddingTop: 280, paddingLeft:50 }}>
                   We hope you have enjoyed using Materialize and if you feel
                   like it has. helped you out and want to support the team you
                   can help us by donating or . backing us on Patreon. Any amount
@@ -201,13 +189,16 @@ const Home = () => {
           </div>
         </Parallax>
 
-        <div className="row ">{listOfCardio}</div>
+        <div className="row " style={styles}>
+          {listOfCardio}
+           <Link to={`categoryExplored/Cardio`}><button>Explore Cardio</button></Link>
+        </div>
 
         <Parallax bgImage={logo2} strength={500}>
           <div style={{ height: 500 }}>
             <div style={{ background: (0, 0, 0, 0.5), color: "#f1f1f1" }}>
               <div class="wrapper">
-                <p id="slide" style={{ paddingTop: 280 }}>
+                <p id="slide" style={{ paddingTop: 280,  paddingLeft:50 }}>
                   We hope you have enjoyed using Materialize and if you feel
                   like it has. helped you out and want to support the team you
                   can help us by donating or . backing us on Patreon. Any amount
@@ -227,7 +218,10 @@ const Home = () => {
             </div>
           </div>
         </Parallax>
-        <div className="row ">{listOfAccessories}</div>
+        <div className="row " style={styles}>
+          {listOfAccessories}
+           <Link to={`categoryExplored/Accessories`}><button>Explore Accessories</button></Link>
+        </div>
 
         <Parallax
           bgImage={logo4}

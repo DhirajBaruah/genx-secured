@@ -67,7 +67,7 @@ const Navbar = (props) => {
   return (
     <React.Fragment>
       <nav>
-        <div class="nav-wrapper orange">
+        <div class="nav-wrapper" style={{background: "linear-gradient(135deg, rgba(193,44,44,1) 9%, rgba(28,47,47,1) 95%)"}}>
           <a href="#" class="brand-logo center">
             <img
               className="sidenav-trigger responsive-img"
@@ -75,7 +75,7 @@ const Navbar = (props) => {
               src={`/images/BrandLogoPng.png`}
             />
           </a>
-          <ul id="nav-mobile" class="left hide-on-med-and-down">
+          <ul id="nav-mobile" class="left ">
             <li>
               <i
                 data-target="slide-out"
@@ -88,23 +88,7 @@ const Navbar = (props) => {
         </div>
       </nav>
 
-      <ul id="slide-out" className="sidenav">
-        <li>
-          <div className="user-view">
-            <div className="background">
-              <img src="images/office.jpg" />
-            </div>
-            <a href="#user">
-              <img className="circle" src="images/yuna.jpg" />
-            </a>
-            <a href="#name">
-              <span className="white-text name">John Doe</span>
-            </a>
-            <a href="#email">
-              <span className="white-text email">jdandturk@gmail.com</span>
-            </a>
-          </div>
-        </li>
+      <ul id="slide-out" style={{background: "linear-gradient(135deg, rgba(193,44,44,1) 9%, rgba(28,47,47,1) 95%)"}} className="sidenav">
         <li>
           <Link to="/">HOME</Link>
         </li>
@@ -112,7 +96,7 @@ const Navbar = (props) => {
           <Link to="/product">PRODUCTS</Link>
         </li>
         <li>
-          <div className="divider"></div>
+          <div className="divider black"></div>
         </li>
         <li>
           <Link to="/enquiry">ENQUIRY</Link>

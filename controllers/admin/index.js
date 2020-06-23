@@ -420,6 +420,66 @@ router.post(
     });
   }
 );
+
+/**
+ * @ route   GET admin/getAllOrders
+ * @ desc    get orders
+ * @ access  Private
+ */
+router.get("/getAllOrders/:status", requiredLogin, (req, res) => {
+  
+  orders.find({status:req.params.status}, (err, data) => {
+      if (err) {
+        console.log(err);
+        return res.send(err);
+      }
+      res.send(data);
+  })
+});
+
+
+
+/**
+ * @ route   GET admin/getAllOrders
+ * @ desc    get orders
+ * @ access  Private
+ */
+// router.get("/getAllOrders", requiredLogin, (req, res) => {
+  
+//   orders
+//     .aggregate([
+//       {
+//         $lookup: {
+//           from: "users",
+//           localField: "userId",
+//           foreignField: "_id",
+//           as: "userDetails",
+//         },
+//       },
+//       {
+//         $lookup: {
+//           from: "addresses",
+//           localField: "addressId",
+//           foreignField: "_id",
+//           as: "addressDetails",
+//         },
+//       },
+//       {
+//         $lookup: {
+//           from: "products",
+//           localField: "productId",
+//           foreignField: "_id",
+//           as: "productDetails",
+//         },
+//       },
+//     ])
+//     .exec(function (err, data) {
+//       if (err) throw err;
+//       console.log(data);
+//       res.send(data);
+//     });
+// });
+
 /////////////////
 router.get("/", (req, res) => {
   res.json("Server is listening for requests");
@@ -452,41 +512,12 @@ router.delete(`/deleteProduct/:id`, (req, res) => {
 //   })
 // );
 
-router.get("/getAllOrders", requiredLogin, (req, res) => {
-  console.log("running getOrder");
-  orders
-    .aggregate([
-      {
-        $lookup: {
-          from: "users",
-          localField: "userId",
-          foreignField: "_id",
-          as: "userDetails",
-        },
-      },
-      {
-        $lookup: {
-          from: "addresses",
-          localField: "addressId",
-          foreignField: "_id",
-          as: "addressDetails",
-        },
-      },
-      {
-        $lookup: {
-          from: "products",
-          localField: "productId",
-          foreignField: "_id",
-          as: "productDetails",
-        },
-      },
-    ])
-    .exec(function (err, data) {
-      if (err) throw err;
-      console.log(data);
-      res.send(data);
-    });
-});
+
+
+
+
+
+
 
 router.get("/x", (req, res) => {
   equipments.find({}, function (err, data) {
@@ -503,6 +534,12 @@ router.get("/x", (req, res) => {
     res.send(data);
   });
 });
+
+
+
+
+
+
 
 router.get("/logout", (req, res) => {
   req.logout();

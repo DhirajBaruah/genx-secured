@@ -17,7 +17,10 @@ function AdminNavbar(props) {
           </a>
           <ul class=" hide-on-med-and-down">
             <li>
-              <Link to="/adminDashboard">Orders</Link>
+              <Link to="/adminDashboard">Dashboard</Link>
+            </li>
+            <li>
+              <Link to="/adminOrders">Orders</Link>
             </li>
             <li>
              <Link to="/adminEdit">Edit</Link>

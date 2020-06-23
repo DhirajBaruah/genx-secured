@@ -16,7 +16,7 @@ import Wishlist from "./components/Wishlist";
 import ConfirmOrders from "./components/ConfirmOrders";
 import ModeOfPayment from "./components/ModeOfPayment";
 import GenXAdmin from "./AdminComponent/EntryPage";
-import AllOrders from "./AdminComponent/AllOrders";
+import AdminOrders from "./AdminComponent/AdminOrders";
 import AdminDashboard from "./AdminComponent/AdminDashboard";
 import ProductCategoryUpload from "./AdminComponent/ProductCategoryUpload";
 import ProductUpload from "./AdminComponent/ProductUpload";
@@ -30,6 +30,7 @@ import { connect } from "react-redux";
 import { loadUser } from "./redux/app/actions/authAction";
 import { loadAdmin } from "./redux/admin/actions/authActionAdmin";
 import M from "materialize-css";
+
 
 function App(props) {
   
@@ -70,6 +71,7 @@ function App(props) {
       <Route path="/myOrders/:userId" component={MyOrders} />
      
       <Route path="/adminDashboard" component={props.admin.isAuthenticatedAdmin ? AdminDashboard : Home} />
+      <Route path="/adminOrders" component={props.admin.isAuthenticatedAdmin ? AdminOrders : Home} />
       <Route path="/addProductCategory" component={props.admin.isAuthenticatedAdmin ? ProductCategoryUpload : Home} />
       <Route path="/addProduct" component={props.admin.isAuthenticatedAdmin ? ProductUpload : Home} />
       <Route path="/adminEdit" component={props.admin.isAuthenticatedAdmin ? AdminEdit : Home} />
