@@ -12,6 +12,8 @@
     width: 1000px;
     height: 100px;
     transition: 1s;
+    padding-top: 280px;
+    padding-left: 50px;
 }
 
 .wrapper:hover #slide {
@@ -53,3 +55,40 @@ button:hover {
     letter-spacing: .2em;
     border: 1px solid white;
 }
+
+@media (max-width: 1024px)
+{
+
+    #slide {
+       
+        width: 800px;
+        
+    }
+}
+
+@media screen and (max-width: 830px)
+{
+
+    #slide {
+       
+        width: 600px;
+        padding-top: 180px;
+        
+        
+    }
+}
+
+@media (max-width: 635px)
+{
+
+    #slide {
+       
+        width: 300px;
+        padding-top: 0px;
+        padding-left: 10px;
+    }
+}
+
+
+
+

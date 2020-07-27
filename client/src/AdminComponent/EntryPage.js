@@ -32,21 +32,19 @@ const EntryPage = (props) => {
 
   return (
     <div>
-      <div className="row">
+      <div className="row container">
         {msg ? showMessage(msg) : null}
-        <div className="col s6" style={{ textAlign: "center" }}>
+        <div className="col s12" style={{ textAlign: "center" }}>
           <h3>LOGIN </h3>
           <form
-            className="col s7"
-            style={{ marginLeft: 100 }}
             onSubmit={(e) => {
               e.preventDefault();
               //Attempt to login
               props.loginAdmin(email, password);
             }}
           >
-            <div className="row">
-              <div className="input-field col s12">
+         
+              <div className="input-field">
                 <input
                   id="email"
                   type="text"
@@ -59,10 +57,10 @@ const EntryPage = (props) => {
                 />
                 <label htmlFor="email">Email</label>
               </div>
-            </div>
+           
 
-            <div className="row">
-              <div className="input-field col s12">
+      
+              <div className="input-field">
                 <input
                   id="password"
                   onChange={(e) => setPassword(e.target.value)}
@@ -73,14 +71,13 @@ const EntryPage = (props) => {
                 />
                 <label htmlFor="password">Password</label>
               </div>
-            </div>
-
+          
             <button
-              className="btn waves-effect waves-light blue-grey darken-1"
+              className="btn blue-grey darken-1"
               type="submit"
               name="action"
             >
-              Submit
+              Login
               <i className="material-icons right">send</i>
             </button>
           </form>

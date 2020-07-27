@@ -57,7 +57,11 @@ const Home = () => {
         const res = await response.data.map((item) => {
           return (
             <Link to={`listOfProducts/${item._id}`} className="carousel-item">
-              <img className="responsive-img" style={{borderRadius:"3%"}} src={`/images/${item._id.replace(/ /g, "")}.jpg`} />
+              <img
+                className="responsive-img car-img"
+                style={{ borderRadius: "3%" }}
+                src={`/images/${item._id.replace(/ /g, "")}.jpg`}
+              />
             </Link>
           );
         });
@@ -73,7 +77,7 @@ const Home = () => {
       .then((res) => {
         var elem = document.getElementById("carousel1");
         var instance = window.M.Carousel.init(elem, {
-          dist: 100,
+          dist: 50,
         });
       });
 
@@ -83,8 +87,16 @@ const Home = () => {
       .then(async (response) => {
         const res = await response.data.map((item) => {
           return (
-            <Link to={`listOfProducts/${item._id}`} className="carousel-item" href="#one!">
-              <img className="responsive-img" style={{borderRadius:"3%"}} src={`/images/${item._id.replace(/ /g, "")}.jpg`} />
+            <Link
+              to={`listOfProducts/${item._id}`}
+              className="carousel-item"
+              href="#one!"
+            >
+              <img
+                className="responsive-img car-img"
+                style={{ borderRadius: "3%" }}
+                src={`/images/${item._id.replace(/ /g, "")}.jpg`}
+              />
             </Link>
           );
         });
@@ -100,7 +112,7 @@ const Home = () => {
       .then(() => {
         var elem = document.getElementById("carousel2");
         var instance = window.M.Carousel.init(elem, {
-          dist: 100,
+          dist: 50,
         });
       });
     //Accessories
@@ -109,8 +121,16 @@ const Home = () => {
       .then(async (response) => {
         const res = await response.data.map((item) => {
           return (
-            <Link to={`listOfProducts/${item._id}`} className="carousel-item" href="#one!">
-              <img className="responsive-img" style={{borderRadius:"3%"}} src={`/images/${item._id.replace(/ /g, "")}.jpg`} />
+            <Link
+              to={`listOfProducts/${item._id}`}
+              className="carousel-item"
+              href="#one!"
+            >
+              <img
+                className="responsive-img car-img"
+                style={{ borderRadius: "3%" }}
+                src={`/images/${item._id.replace(/ /g, "")}.jpg`}
+              />
             </Link>
           );
         });
@@ -126,7 +146,7 @@ const Home = () => {
       .then(() => {
         var elem = document.getElementById("carousel3");
         var instance = window.M.Carousel.init(elem, {
-          dist: 100,
+          dist: 50,
         });
       });
   }, []);
@@ -160,15 +180,187 @@ const Home = () => {
         </Parallax>
 
         <div className="row " style={styles}>
+          <section>
+            <div class="leaf">
+              <div>
+                {" "}
+                <img
+                  src="http://www.pngmart.com/files/8/Burn-PNG-Photo-Image.png"
+                  height="75px"
+                  width="75px"
+                ></img>
+              </div>
+              <div>
+                <img
+                  src="http://www.pngmart.com/files/8/Burn-PNG-Photo-Image.png"
+                  height="75px"
+                  width="75px"
+                ></img>
+              </div>
+              <div>
+                {" "}
+                <img
+                  src="http://www.pngmart.com/files/8/Burn-PNG-Photo-Image.png"
+                  height="75px"
+                  width="75px"
+                ></img>
+              </div>
+              <div>
+                <img
+                  src="http://www.pngmart.com/files/8/Burn-PNG-Photo-Image.png"
+                  height="75px"
+                  width="75px"
+                ></img>
+              </div>
+              <div>
+                {" "}
+                <img
+                  src="http://www.pngmart.com/files/8/Burn-PNG-Photo-Image.png"
+                  height="75px"
+                  width="75px"
+                ></img>
+              </div>
+              <div>
+                {" "}
+                <img
+                  src="http://www.pngmart.com/files/8/Burn-PNG-Photo-Image.png"
+                  height="75px"
+                  width="75px"
+                />
+              </div>
+              <div>
+                <img
+                  src="http://www.pngmart.com/files/8/Burn-PNG-Photo-Image.png"
+                  height="75px"
+                  width="75px"
+                />
+              </div>
+            </div>
+
+            <div class="leaf leaf1">
+              <div>
+                {" "}
+                <img
+                  src="http://www.pngmart.com/files/1/Blue-Fire-PNG-Image.png"
+                  height="75px"
+                  width="75px"
+                ></img>
+              </div>
+              <div>
+                <img
+                  src="http://www.pngmart.com/files/1/Blue-Fire-PNG-Image.png"
+                  height="75px"
+                  width="75px"
+                ></img>
+              </div>
+              <div>
+                {" "}
+                <img
+                  src="http://www.pngmart.com/files/1/Blue-Fire-PNG-Transparent-Image.png"
+                  height="75px"
+                  width="75px"
+                ></img>
+              </div>
+              <div>
+                <img
+                  src="http://www.pngmart.com/files/1/Blue-Fire-PNG-Transparent-Image.png"
+                  height="75px"
+                  width="75px"
+                ></img>
+              </div>
+              <div>
+                {" "}
+                <img
+                  src="http://www.pngmart.com/files/1/Blue-Fire-PNG-Transparent-Image.png"
+                  height="75px"
+                  width="75px"
+                ></img>
+              </div>
+              <div>
+                {" "}
+                <img
+                  src="http://www.pngmart.com/files/1/Blue-Fire-PNG-Transparent-Image.png"
+                  height="75px"
+                  width="75px"
+                />
+              </div>
+              <div>
+                <img
+                  src="http://www.pngmart.com/files/1/Blue-Fire-PNG-Transparent-Image.png"
+                  height="75px"
+                  width="75px"
+                />
+              </div>
+            </div>
+
+            <div class="leaf leaf2">
+              <div>
+                {" "}
+                <img
+                  src="http://www.pngmart.com/files/1/Blue-Fire-PNG-Transparent-Image.png"
+                  height="75px"
+                  width="75px"
+                ></img>
+              </div>
+              <div>
+                <img
+                  src="http://www.pngmart.com/files/1/Blue-Fire-PNG-Transparent-Image.png"
+                  height="75px"
+                  width="75px"
+                ></img>
+              </div>
+              <div>
+                {" "}
+                <img
+                  src="http://www.pngmart.com/files/1/Blue-Fire-PNG-Transparent-Image.png"
+                  height="75px"
+                  width="75px"
+                ></img>
+              </div>
+              <div>
+                <img
+                  src="http://www.pngmart.com/files/1/Blue-Fire-PNG-Transparent-Image.png"
+                  height="75px"
+                  width="75px"
+                ></img>
+              </div>
+
+              <div>
+                {" "}
+                <img
+                  src="http://www.pngmart.com/files/1/Blue-Fire-PNG-Transparent-Image.png"
+                  height="75px"
+                  width="75px"
+                ></img>
+              </div>
+              <div>
+                {" "}
+                <img
+                  src="http://www.pngmart.com/files/1/Blue-Fire-PNG-Transparent-Image.png"
+                  height="75px"
+                  width="75px"
+                />
+              </div>
+              <div>
+                <img
+                  src="http://www.pngmart.com/files/1/Blue-Fire-PNG-Transparent-Image.png"
+                  height="75px"
+                  width="75px"
+                />
+              </div>
+            </div>
+          </section>
           {listOfStrength}
-          <Link to={`categoryExplored/Strength`}><button>Explore Strength</button></Link>
+          <Link to={`categoryExplored/Strength`}>
+            <button>Explore Strength</button>
+          </Link>
         </div>
 
         <Parallax bgImage={logo1} strength={500}>
           <div style={{ height: 500 }}>
             <div style={{ background: (0, 0, 0, 0.5), color: "#f1f1f1" }}>
               <div class="wrapper">
-                <p id="slide" style={{ paddingTop: 280, paddingLeft:50 }}>
+                <p id="slide" >
                   We hope you have enjoyed using Materialize and if you feel
                   like it has. helped you out and want to support the team you
                   can help us by donating or . backing us on Patreon. Any amount
@@ -190,15 +382,187 @@ const Home = () => {
         </Parallax>
 
         <div className="row " style={styles}>
+                  <section>
+            <div class="leaf">
+              <div>
+                {" "}
+                <img
+                  src="http://www.pngmart.com/files/8/Burn-PNG-Photo-Image.png"
+                  height="75px"
+                  width="75px"
+                ></img>
+              </div>
+              <div>
+                <img
+                  src="http://www.pngmart.com/files/8/Burn-PNG-Photo-Image.png"
+                  height="75px"
+                  width="75px"
+                ></img>
+              </div>
+              <div>
+                {" "}
+                <img
+                  src="http://www.pngmart.com/files/8/Burn-PNG-Photo-Image.png"
+                  height="75px"
+                  width="75px"
+                ></img>
+              </div>
+              <div>
+                <img
+                  src="http://www.pngmart.com/files/8/Burn-PNG-Photo-Image.png"
+                  height="75px"
+                  width="75px"
+                ></img>
+              </div>
+              <div>
+                {" "}
+                <img
+                  src="http://www.pngmart.com/files/8/Burn-PNG-Photo-Image.png"
+                  height="75px"
+                  width="75px"
+                ></img>
+              </div>
+              <div>
+                {" "}
+                <img
+                  src="http://www.pngmart.com/files/8/Burn-PNG-Photo-Image.png"
+                  height="75px"
+                  width="75px"
+                />
+              </div>
+              <div>
+                <img
+                  src="http://www.pngmart.com/files/8/Burn-PNG-Photo-Image.png"
+                  height="75px"
+                  width="75px"
+                />
+              </div>
+            </div>
+
+            <div class="leaf leaf1">
+              <div>
+                {" "}
+                <img
+                  src="http://www.pngmart.com/files/1/Blue-Fire-PNG-Image.png"
+                  height="75px"
+                  width="75px"
+                ></img>
+              </div>
+              <div>
+                <img
+                  src="http://www.pngmart.com/files/1/Blue-Fire-PNG-Image.png"
+                  height="75px"
+                  width="75px"
+                ></img>
+              </div>
+              <div>
+                {" "}
+                <img
+                  src="http://www.pngmart.com/files/1/Blue-Fire-PNG-Transparent-Image.png"
+                  height="75px"
+                  width="75px"
+                ></img>
+              </div>
+              <div>
+                <img
+                  src="http://www.pngmart.com/files/1/Blue-Fire-PNG-Transparent-Image.png"
+                  height="75px"
+                  width="75px"
+                ></img>
+              </div>
+              <div>
+                {" "}
+                <img
+                  src="http://www.pngmart.com/files/1/Blue-Fire-PNG-Transparent-Image.png"
+                  height="75px"
+                  width="75px"
+                ></img>
+              </div>
+              <div>
+                {" "}
+                <img
+                  src="http://www.pngmart.com/files/1/Blue-Fire-PNG-Transparent-Image.png"
+                  height="75px"
+                  width="75px"
+                />
+              </div>
+              <div>
+                <img
+                  src="http://www.pngmart.com/files/1/Blue-Fire-PNG-Transparent-Image.png"
+                  height="75px"
+                  width="75px"
+                />
+              </div>
+            </div>
+
+            <div class="leaf leaf2">
+              <div>
+                {" "}
+                <img
+                  src="http://www.pngmart.com/files/1/Blue-Fire-PNG-Transparent-Image.png"
+                  height="75px"
+                  width="75px"
+                ></img>
+              </div>
+              <div>
+                <img
+                  src="http://www.pngmart.com/files/1/Blue-Fire-PNG-Transparent-Image.png"
+                  height="75px"
+                  width="75px"
+                ></img>
+              </div>
+              <div>
+                {" "}
+                <img
+                  src="http://www.pngmart.com/files/1/Blue-Fire-PNG-Transparent-Image.png"
+                  height="75px"
+                  width="75px"
+                ></img>
+              </div>
+              <div>
+                <img
+                  src="http://www.pngmart.com/files/1/Blue-Fire-PNG-Transparent-Image.png"
+                  height="75px"
+                  width="75px"
+                ></img>
+              </div>
+
+              <div>
+                {" "}
+                <img
+                  src="http://www.pngmart.com/files/1/Blue-Fire-PNG-Transparent-Image.png"
+                  height="75px"
+                  width="75px"
+                ></img>
+              </div>
+              <div>
+                {" "}
+                <img
+                  src="http://www.pngmart.com/files/1/Blue-Fire-PNG-Transparent-Image.png"
+                  height="75px"
+                  width="75px"
+                />
+              </div>
+              <div>
+                <img
+                  src="http://www.pngmart.com/files/1/Blue-Fire-PNG-Transparent-Image.png"
+                  height="75px"
+                  width="75px"
+                />
+              </div>
+            </div>
+          </section>
           {listOfCardio}
-           <Link to={`categoryExplored/Cardio`}><button>Explore Cardio</button></Link>
+          <Link to={`categoryExplored/Cardio`}>
+            <button>Explore Cardio</button>
+          </Link>
         </div>
 
         <Parallax bgImage={logo2} strength={500}>
           <div style={{ height: 500 }}>
             <div style={{ background: (0, 0, 0, 0.5), color: "#f1f1f1" }}>
               <div class="wrapper">
-                <p id="slide" style={{ paddingTop: 280,  paddingLeft:50 }}>
+                <p id="slide" >
                   We hope you have enjoyed using Materialize and if you feel
                   like it has. helped you out and want to support the team you
                   can help us by donating or . backing us on Patreon. Any amount
@@ -219,8 +583,180 @@ const Home = () => {
           </div>
         </Parallax>
         <div className="row " style={styles}>
+                  <section>
+            <div class="leaf">
+              <div>
+                {" "}
+                <img
+                  src="http://www.pngmart.com/files/8/Burn-PNG-Photo-Image.png"
+                  height="75px"
+                  width="75px"
+                ></img>
+              </div>
+              <div>
+                <img
+                  src="http://www.pngmart.com/files/8/Burn-PNG-Photo-Image.png"
+                  height="75px"
+                  width="75px"
+                ></img>
+              </div>
+              <div>
+                {" "}
+                <img
+                  src="http://www.pngmart.com/files/8/Burn-PNG-Photo-Image.png"
+                  height="75px"
+                  width="75px"
+                ></img>
+              </div>
+              <div>
+                <img
+                  src="http://www.pngmart.com/files/8/Burn-PNG-Photo-Image.png"
+                  height="75px"
+                  width="75px"
+                ></img>
+              </div>
+              <div>
+                {" "}
+                <img
+                  src="http://www.pngmart.com/files/8/Burn-PNG-Photo-Image.png"
+                  height="75px"
+                  width="75px"
+                ></img>
+              </div>
+              <div>
+                {" "}
+                <img
+                  src="http://www.pngmart.com/files/8/Burn-PNG-Photo-Image.png"
+                  height="75px"
+                  width="75px"
+                />
+              </div>
+              <div>
+                <img
+                  src="http://www.pngmart.com/files/8/Burn-PNG-Photo-Image.png"
+                  height="75px"
+                  width="75px"
+                />
+              </div>
+            </div>
+
+            <div class="leaf leaf1">
+              <div>
+                {" "}
+                <img
+                  src="http://www.pngmart.com/files/1/Blue-Fire-PNG-Image.png"
+                  height="75px"
+                  width="75px"
+                ></img>
+              </div>
+              <div>
+                <img
+                  src="http://www.pngmart.com/files/1/Blue-Fire-PNG-Image.png"
+                  height="75px"
+                  width="75px"
+                ></img>
+              </div>
+              <div>
+                {" "}
+                <img
+                  src="http://www.pngmart.com/files/1/Blue-Fire-PNG-Transparent-Image.png"
+                  height="75px"
+                  width="75px"
+                ></img>
+              </div>
+              <div>
+                <img
+                  src="http://www.pngmart.com/files/1/Blue-Fire-PNG-Transparent-Image.png"
+                  height="75px"
+                  width="75px"
+                ></img>
+              </div>
+              <div>
+                {" "}
+                <img
+                  src="http://www.pngmart.com/files/1/Blue-Fire-PNG-Transparent-Image.png"
+                  height="75px"
+                  width="75px"
+                ></img>
+              </div>
+              <div>
+                {" "}
+                <img
+                  src="http://www.pngmart.com/files/1/Blue-Fire-PNG-Transparent-Image.png"
+                  height="75px"
+                  width="75px"
+                />
+              </div>
+              <div>
+                <img
+                  src="http://www.pngmart.com/files/1/Blue-Fire-PNG-Transparent-Image.png"
+                  height="75px"
+                  width="75px"
+                />
+              </div>
+            </div>
+
+            <div class="leaf leaf2">
+              <div>
+                {" "}
+                <img
+                  src="http://www.pngmart.com/files/1/Blue-Fire-PNG-Transparent-Image.png"
+                  height="75px"
+                  width="75px"
+                ></img>
+              </div>
+              <div>
+                <img
+                  src="http://www.pngmart.com/files/1/Blue-Fire-PNG-Transparent-Image.png"
+                  height="75px"
+                  width="75px"
+                ></img>
+              </div>
+              <div>
+                {" "}
+                <img
+                  src="http://www.pngmart.com/files/1/Blue-Fire-PNG-Transparent-Image.png"
+                  height="75px"
+                  width="75px"
+                ></img>
+              </div>
+              <div>
+                <img
+                  src="http://www.pngmart.com/files/1/Blue-Fire-PNG-Transparent-Image.png"
+                  height="75px"
+                  width="75px"
+                ></img>
+              </div>
+
+              <div>
+                {" "}
+                <img
+                  src="http://www.pngmart.com/files/1/Blue-Fire-PNG-Transparent-Image.png"
+                  height="75px"
+                  width="75px"
+                ></img>
+              </div>
+              <div>
+                {" "}
+                <img
+                  src="http://www.pngmart.com/files/1/Blue-Fire-PNG-Transparent-Image.png"
+                  height="75px"
+                  width="75px"
+                />
+              </div>
+              <div>
+                <img
+                  src="http://www.pngmart.com/files/1/Blue-Fire-PNG-Transparent-Image.png"
+                  height="75px"
+                  width="75px"
+                />
+              </div>
+            </div>
+          </section>
           {listOfAccessories}
-           <Link to={`categoryExplored/Accessories`}><button>Explore Accessories</button></Link>
+          <Link to={`categoryExplored/Accessories`}>
+            <button>Explore Accessories</button>
+          </Link>
         </div>
 
         <Parallax

@@ -13,27 +13,30 @@ const Navbar = (props) => {
       case true:
         return (
           <React.Fragment>
-            <li>
-              <a onClick={() => props.logout()}>logout</a>
+            <li className="sidenav-close">
+              <a onClick={() => props.logout()}>LOGOUT</a>
             </li>
-            <li>
-              <Link to="/profile">profile</Link>
+            <li className="sidenav-close">
+              <Link to="/profile">PROFILE</Link>
             </li>
-            <li>
-              <Link to={`/Wishlist/${props.user._id}`}>Wishlist</Link>
+            <li className="sidenav-close">
+              <Link to={`/Wishlist/${props.user.user.id}`}>WISHLIST</Link>
+            </li>
+            <li className="sidenav-close">
+              <Link to={`/myOrders/${props.user.user.id}`}>MY ORDERS</Link>
             </li>
           </React.Fragment>
         );
 
       case false:
         return (
-          <li>
+          <li className="sidenav-close">
             <Link to="/signup">SIGNUP/LOGIN</Link>
           </li>
         );
       default:
         return (
-          <li>
+          <li className="sidenav-close">
             <Link to="/#">Loading...</Link>
           </li>
         );
@@ -47,10 +50,10 @@ const Navbar = (props) => {
       case true:
         return (
           <React.Fragment>
-            <li>
+            <li className="sidenav-close">
               <a onClick={() => props.logoutAdmin()}>LOGOUT A</a>
             </li>
-            <li>
+            <li className="sidenav-close">
               <Link to="/adminDashboard">DASHBOARD</Link>
             </li>
           </React.Fragment>
@@ -66,7 +69,7 @@ const Navbar = (props) => {
 
   return (
     <React.Fragment>
-      <nav>
+      <nav className="noprint">
         <div class="nav-wrapper" style={{background: "linear-gradient(135deg, rgba(193,44,44,1) 9%, rgba(28,47,47,1) 95%)"}}>
           <a href="#" class="brand-logo center">
             <img
@@ -89,25 +92,25 @@ const Navbar = (props) => {
       </nav>
 
       <ul id="slide-out" style={{background: "linear-gradient(135deg, rgba(193,44,44,1) 9%, rgba(28,47,47,1) 95%)"}} className="sidenav">
-        <li>
+        <li className="sidenav-close">
           <Link to="/">HOME</Link>
         </li>
-        <li>
+        <li className="sidenav-close">
           <Link to="/product">PRODUCTS</Link>
         </li>
-        <li>
+        <li className="sidenav-close">
           <div className="divider black"></div>
         </li>
-        <li>
+        <li className="sidenav-close">
           <Link to="/enquiry">ENQUIRY</Link>
         </li>
-        <li>
+        <li className="sidenav-close">
           <Link to="/contact">CONTACT US</Link>
         </li>
-        <li>
+        <li className="sidenav-close">
           <Link to="/about">ABOUT US</Link>
         </li>
-        <li>
+        <li className="sidenav-close">
           <Link to="/career">CAREER</Link>
         </li>
         {renderContentAdmin()}
