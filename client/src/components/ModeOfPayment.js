@@ -37,7 +37,7 @@ const ModeOfPayment = (props) => {
         .then((res) => {
           console.log(res);
           if (res.data.success == true) {
-            props.history.push(`/myOrders/${props.user._id}`);
+            props.history.push(`/myOrders/${props.user.user._id}`);
           }
         });
     } else {

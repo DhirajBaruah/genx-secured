@@ -422,7 +422,7 @@ router.post(
 );
 
 /**
- * @ route   GET admin/getAllOrders
+ * @ route   GET admin/getAllOrders/:status
  * @ desc    get orders
  * @ access  Private
  */
@@ -435,6 +435,30 @@ router.get("/getAllOrders/:status", requiredLogin, (req, res) => {
       }
       res.send(data);
   })
+});
+
+/**
+ * @ route   UPDATE admin/updateOrderStatus/:orderId
+ * @ desc    update order status
+ * @ access  Private
+ */
+router.put("/updateOrderStatus/:orderId/:status", requiredLogin, (req, res) => {
+  
+  orders.updateOne(
+    { _id: req.params.orderId },
+    {
+      status: req.params.status
+    },
+    function (err, data) {
+      if (err) {
+        console.log(err);
+        return res.send(err);
+      }
+
+      res.send(data);
+      console.log("===========edited=============");
+    }
+  );
 });
 
 

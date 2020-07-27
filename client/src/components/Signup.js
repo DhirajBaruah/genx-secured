@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { register } from "../redux/app/actions/authAction";
 import { login } from "../redux/app/actions/authAction";
 import { clearErrors } from "../redux/app/actions/errorAction";
-import { withRouter } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 
 const Signup = (props) => {
   const [fname, setfname] = useState("");
@@ -41,8 +41,8 @@ const Signup = (props) => {
   return (
     <div>
       {msg ? showMessage(msg) : null}
-      <div className="row">
-        <div className="col s6" style={{ textAlign: "center" }}>
+      <div className="row container">
+        <div className="col s12 l6" style={{ textAlign: "center" }}>
           <h3>SIGN UP</h3>
           <form
             onSubmit={(e) => {
@@ -50,13 +50,11 @@ const Signup = (props) => {
               //Attempt to register
               props.register(fname, lname, email, password);
             }}
-            className="col s7"
-            style={{
-              marginLeft: 200,
-            }}
+            
+           
           >
-            <div className="row">
-              <div className="input-field col s12">
+           
+              <div className="input-field ">
                 <input
                   onChange={(e) => {
                     setemail(e.target.value);
@@ -69,10 +67,10 @@ const Signup = (props) => {
                 />
                 <label htmlFor="email">Email</label>
               </div>
-            </div>
+          
 
-            <div className="row">
-              <div className="input-field col s12">
+           
+              <div className="input-field ">
                 <input
                   onChange={(e) => setpassword(e.target.value)}
                   id="password"
@@ -82,9 +80,8 @@ const Signup = (props) => {
                 />
                 <label htmlFor="password">Password</label>
               </div>
-            </div>
-            <div className="row">
-              <div className="input-field col s12">
+         
+              <div className="input-field ">
                 <input
                   onChange={(e) => setfname(e.target.value)}
                   id="fname"
@@ -94,9 +91,8 @@ const Signup = (props) => {
                 />
                 <label htmlFor="password">First name</label>
               </div>
-            </div>
-            <div className="row">
-              <div className="input-field col s12">
+       
+              <div className="input-field ">
                 <input
                   onChange={(e) => setlname(e.target.value)}
                   id="lname"
@@ -106,20 +102,20 @@ const Signup = (props) => {
                 />
                 <label htmlFor="password">Last name</label>
               </div>
-            </div>
+         
 
             <button
               className="btn waves-effect waves-light blue-grey darken-1"
               type="submit"
               name="action"
             >
-              Submit
+              Signup
               <i className="material-icons right">send</i>
             </button>
           </form>
         </div>
 
-        <div className="col s6" style={{ textAlign: "center" }}>
+        <div className="col s12 l6" style={{ textAlign: "center" }}>
           <h3>LOGIN </h3>
           <form
             onSubmit={(e) => {
@@ -127,13 +123,10 @@ const Signup = (props) => {
               //Attempt to login
               props.login(email, password);
             }}
-            className="col s7"
-            style={{
-              marginLeft: 100,
-            }}
+          
           >
-            <div className="row">
-              <div className="input-field col s12">
+            
+              <div className="input-field">
                 <input
                   onChange={(e) => {
                     setemail(e.target.value);
@@ -145,10 +138,10 @@ const Signup = (props) => {
                 />
                 <label htmlFor="email">Email</label>
               </div>
-            </div>
+           
 
-            <div className="row">
-              <div className="input-field col s12">
+           
+              <div className="input-field">
                 <input
                   onChange={(e) => setpassword(e.target.value)}
                   id="password"
@@ -158,21 +151,22 @@ const Signup = (props) => {
                 />
                 <label htmlFor="password">Password</label>
               </div>
-            </div>
-
+        
             <button
               className="btn waves-effect waves-light blue-grey darken-1"
               type="submit"
               name="action"
             >
-              Submit
+              Login
               <i className="material-icons right">send</i>
-            </button>
+            </button><br /><br />
+            
+            <Link to="/forgotPass" style={{color:"red"}}><i className="material-icons">help_outline</i><br />forgot password</Link>
           </form>
         </div>
       </div>
 
-      <div className="row" style={{ textAlign: "center", paddingTop: 50 }}>
+     {/* <div className="row" style={{ textAlign: "center", paddingTop: 50 }}>
         <a
           className="btn waves-effect waves-light red darken-1"
           href="/app/auth/google"
@@ -186,8 +180,8 @@ const Signup = (props) => {
         >
           SIGNUP/LOGIN WITH FACEBOOK
         </a>
-      </div>
-    </div>
+      </div>*/}
+    </div> 
   );
 };
 

@@ -10,7 +10,13 @@ const passport = require("passport");
 const fileUpload = require("express-fileupload");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const { JWT_SECRET } = require("../../util/secrets");
+var nodemailer = require("nodemailer");
+const {
+  JWT_SECRET,
+  ADMIN_EMAIL,
+  TRANSPORTER_EMAIL,
+  TRANSPORTER_PASSWORD,
+} = require("../../util/secrets");
 const requiredLogin = require("../../middlewares/app/requiredLogin");
 const cookieParser = require("cookie-parser");
 require("../../models/equipments");
@@ -33,6 +39,8 @@ const userAuthCredentials = mongoose.model("userAuthCredentials");
 const addresses = mongoose.model("addresses");
 const carts = mongoose.model("carts");
 const orders = mongoose.model("orders");
+
+global.accsNewPass = false;
 
 router.get("/", (req, res) => {
   res.json("Server is listening for requests ya");
@@ -145,13 +153,13 @@ router.get("/user", requiredLogin, async (req, res) => {
  * @ desc    To logout
  * @ access  Private
  */
-router.post("/logoutUser", requiredLogin,  (req, res) => {
+router.post("/logoutUser", requiredLogin, (req, res) => {
   res.cookie("token", 123, {
-      httpOnly: true,
-    });
-    console.log("loggedout")
+    httpOnly: true,
+  });
+  console.log("loggedout");
 
-    res.status(200).json({msg: "Logged out successfully"})
+  res.status(200).json({ msg: "Logged out successfully" });
 });
 
 /**
@@ -194,20 +202,200 @@ router.post("/placeOrder", requiredLogin, (req, res) => {
  */
 router.get("/getProductCategory/:productCategoryId", (req, res) => {
   let productCategoryId = req.params.productCategoryId;
- 
-    productCategory.find({ _id: productCategoryId }, function (err, data) {
+
+  productCategory.find({ _id: productCategoryId }, function (err, data) {
+    if (err) {
+      return res.send(err);
+    }
+
+    if (data.length == 0) {
+      console.log("No record found ");
+      return res.json({ msg: "No file uploaded" });
+    }
+
+    res.send(data);
+  });
+});
+
+/**
+ * @ route   GET /app/getMyOrders/:userId
+ * @ desc    get my orders
+ * @ access  private
+ */
+router.get("/getMyOrders/:userId", requiredLogin, (req, res) => {
+  let userId = req.params.userId;
+
+  orders
+    .aggregate([
+      { $match: { userId: mongoose.Types.ObjectId(userId) } },
+      {
+        $lookup: {
+          from: "products",
+          localField: "productId",
+          foreignField: "_id",
+          as: "listOfOrders",
+        },
+      },
+      {
+        $lookup: {
+          from: "addresses",
+          localField: "addressId",
+          foreignField: "_id",
+          as: "address",
+        },
+      },
+    ])
+    .exec(function (err, data) {
       if (err) {
         return res.send(err);
       }
+      res.send(data);
+    });
+});
 
-      if (data.length == 0) {
-        console.log("No record found ");
-        return res.json({ msg: "No file uploaded" });
+/**
+ * @ route   GET /app/getMyOrders/:orderId
+ * @ desc    get my orders
+ * @ access  private
+ */
+router.get("/getOrder/:orderId", requiredLogin, (req, res) => {
+  let orderId = req.params.orderId;
+
+  orders
+    .aggregate([
+      { $match: { _id: mongoose.Types.ObjectId(orderId) } },
+      {
+        $lookup: {
+          from: "products",
+          localField: "productId",
+          foreignField: "_id",
+          as: "listOfOrders",
+        },
+      },
+      {
+        $lookup: {
+          from: "addresses",
+          localField: "addressId",
+          foreignField: "_id",
+          as: "address",
+        },
+      },
+    ])
+    .exec(function (err, data) {
+      if (err) {
+        return res.send(err);
+      }
+      res.send(data);
+    });
+});
+
+/**
+ * @ route   GET /app/forgotPass
+ * @ desc    forgot password send otp
+ * @ access  public
+ */
+router.post("/forgotPass", async (req, res) => {
+  let userEmail = req.body.email;
+  const savedUser = await users.findOne({ email: userEmail });
+  if (!savedUser) {
+    return res.status(400).json({ error: "Email does not exist" });
+  }
+
+  global.otp = Math.floor(Math.random() * (9999 - 1000)) + 1000;
+  global.emailForNewPass = userEmail;
+  const myFunction = () => {
+    global.otp = Math.floor(Math.random() * (9999 - 1000)) + 1000;
+    delete(emailForNewPass);
+  };
+  setTimeout(myFunction, 60000 * 3);
+
+  async function recCallBack() {
+    // create reusable transporter object using the default SMTP transport
+    // let transporter = nodemailer.createTransport({
+    //     host: "smtp.ethereal.email",
+    //     port: 587,
+    //     secure: false, // true for 465, false for other ports
+    //     auth: {
+    //     user: testAccount.user, // generated ethereal user
+    //     pass: testAccount.pass, // generated ethereal password
+    //     },
+    // });
+
+    var transporter = await nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: TRANSPORTER_EMAIL,
+        pass: TRANSPORTER_PASSWORD,
+      },
+    });
+
+    // send mail with defined transport object
+    let info = await transporter.sendMail({
+      from: ADMIN_EMAIL, // sender address
+      to: `${userEmail}`, // list of receivers
+      subject: "otp for your genx account", // Subject line
+      text: `Otp to reset your password : ${otp}`, // plain text body
+    });
+    res.json({success: true});
+    console.log("Message sent: %s", info.messageId);
+    // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
+
+    // Preview only available when sending through an Ethereal account
+    console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+    // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
+  }
+  recCallBack().catch(console.error);
+});
+
+/**
+ * @ route   GET /app/matchOtp
+ * @ desc    forgot password match the otps
+ * @ access  public
+ */
+router.post("/matchOtp", async (req, res) => {
+  let otpRecieved = req.body.otp;
+  if (otp != otpRecieved) {
+    return res.status(400).json({ error: "Invalid credentials" });
+  } else {
+    global.accsNewPass = true;
+    const myFunction = () => {
+      global.accsNewPass = false;
+    };
+    setTimeout(myFunction, 60000 * 3);
+    res.json({success: true});
+  }
+});
+
+
+/**
+ * @ route   GET /app/setNewPass
+ * @ desc    forgot password set a new password
+ * @ access  public
+ */
+router.post("/setNewPass", async (req, res) => {
+  let password = req.body.pass;
+  if (accsNewPass) {
+    const hashedpassword = await bcrypt.hash(password, 12);
+
+      users.updateOne(
+    { email: emailForNewPass },
+    {
+      password: hashedpassword
+    },
+    function (err, data) {
+      if (err) {
+        console.log(err);
+        return res.send(err);
       }
 
       res.send(data);
-    });
-
+      console.log("===========edited=============");
+    }
+  );
+    
+  } else {
+    return res.status(400).json({ error: "Session expired" });
+  }
 });
 
 // router.get("/a", (req, res) => {
@@ -272,26 +460,21 @@ router.get("/category", (req, res) => {
 });
 
 router.get("/listOfProducts/:yoyo", (req, res) => {
- 
-    let productCategoryId = req.params.yoyo;
-    product.find({ productCategoryId: productCategoryId }, function (
-      err,
-      data
-    ) {
-      if (err) {
-        console.log(err);
-        return;
-      }
+  let productCategoryId = req.params.yoyo;
+  product.find({ productCategoryId: productCategoryId }, function (err, data) {
+    if (err) {
+      console.log(err);
+      return;
+    }
 
-      if (data.length == 0) {
-        console.log(data);
-        console.log("No record found");
-        return;
-      }
+    if (data.length == 0) {
+      console.log(data);
+      console.log("No record found");
+      return;
+    }
 
-      res.send(data);
-    });
-  
+    res.send(data);
+  });
 });
 
 router.get("/productExplored/:productId", (req, res) => {

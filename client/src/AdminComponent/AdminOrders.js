@@ -6,12 +6,65 @@ import axios from "axios";
 const AdminOrders = (props) => {
   const [orders, setorders] = useState();
   const [status, setstatus] = useState("pending");
+  const [state, changestate] = useState(true);
   const elements = [];
+
+  const statusHandler = async (orderId, st) => {
+    try {
+      const response = await axios.put(
+        `/admin/updateOrderStatus/${orderId}/${st}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        }
+      );
+      changestate(!state);
+    } catch (error) {
+      alert(error);
+    }
+  };
+
+  const renderStButton = (id) => {
+    if (status === "pending") {
+      return( 
+      <a
+        onClick={() => {
+          statusHandler(id,"processing");
+        }}
+        class="btn-small"
+        href="#"
+      >
+        Process
+      </a>
+      )
+
+    } else if (status === "processing") {
+      return( 
+              <a
+        onClick={() => {
+          statusHandler(id, "delivered");
+        }}
+        class="btn-small"
+        href="#"
+      >
+        Delivered
+      </a>
+      )
+
+    }
+  }
 
   useEffect(() => {
     // imitialize dropdown
-    var elems = document.querySelectorAll("select");
+    var elems = document.getElementById("sel");
     var instances = window.M.FormSelect.init(elems, {});
+    
+  },[])
+
+  useEffect(() => {
+
     axios
       .get(`/admin/getAllOrders/${status}`, {
         headers: {
@@ -23,7 +76,7 @@ const AdminOrders = (props) => {
         console.log(JSON.stringify(res.data));
         res.data.map((item) => {
           elements.push(
-            <tr>
+            <tr key={item._id}>
               <th>{item._id}</th>
               <th>{item.userId}</th>
               <th>{item.addressId}</th>
@@ -32,13 +85,21 @@ const AdminOrders = (props) => {
               <th>{item.payableAmount}</th>
               <th>{item.modeOfPayment}</th>
               <th>{item.createdAt}</th>
+              <th>
+                <Link to={`/printInvoice/${item._id}`} className=" btn ">
+                  <i class="material-icons ">print</i>
+                </Link>
+                <br />
+                <br />
+                {renderStButton(item._id)}
+              </th>
             </tr>
           );
         });
         setorders(elements);
       })
       .catch((err) => alert(err.message));
-  }, [status]);
+  }, [status, state]);
 
   const renderContent = () => {
     switch (props.admin.isAuthenticatedAdmin) {
@@ -49,7 +110,8 @@ const AdminOrders = (props) => {
       case true:
         return (
           <React.Fragment>
-            <select onChange={(e) => setstatus(e.target.value)}>
+          <form>
+            <select id="sel" onChange={(e) => setstatus(e.target.value)}>
               <option value="pending">Choose status</option>
               <option value="pending">pending</option>
               <option value="processing">processing</option>
@@ -57,7 +119,8 @@ const AdminOrders = (props) => {
               <option value="cancelled">cancelled</option>
               <option value="refunded">refunded</option>
             </select>
-            <span class="new badge">{status} orders</span>
+            </form>
+            <span className="new badge">{status} orders</span>
             <table className="highlight responsive-table">
               <thead>
                 <tr>
@@ -69,12 +132,11 @@ const AdminOrders = (props) => {
                   <th>Payable</th>
                   <th>Mode</th>
                   <th>Created</th>
+                  <th>Action</th>
                 </tr>
               </thead>
 
-              <tbody>
-                {orders}
-              </tbody>
+              <tbody>{orders}</tbody>
             </table>
           </React.Fragment>
         );

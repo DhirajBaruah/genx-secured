@@ -1,5 +1,6 @@
 //////////Make ProductCategory Name unique
 import React, { useEffect } from "react";
+import "./App.css"
 import Home from "./components/Home";
 import About from "./components/About";
 import Career from "./components/Career";
@@ -25,6 +26,8 @@ import AdminEdit from "./AdminComponent/AdminEdit";
 import EditProduct from "./AdminComponent/EditProduct";
 import EditProductCategory from "./AdminComponent/EditProductCategory";
 import MyOrders from "./components/MyOrders";
+import ForgotPass from "./components/ForgotPass";
+import PrintInvoice from "./components/PrintInvoice";
 import { BrowserRouter, Route } from "react-router-dom";
 import { connect } from "react-redux";
 import { loadUser } from "./redux/app/actions/authAction";
@@ -56,6 +59,10 @@ function App(props) {
         component={props.user.isAuthenticated ? Home : Signup}
       />
       <Route
+        path="/myOrders/:userId"
+        component={props.user.isAuthenticated ? MyOrders : Signup}
+      />
+      <Route
         path="/categoryExplored/:categoryName"
         component={CategoryExplored}
       />
@@ -64,11 +71,11 @@ function App(props) {
       <Route path="/GenXAdmin/12345" component={GenXAdmin} />
       <Route path="/Wishlist/:userId" component={Wishlist} />
       <Route path="/confirmOrders/:productId" component={ConfirmOrders} />
+      <Route path="/forgotPass" component={ForgotPass} />
       <Route
         path="/modeOfPayment/:userId/:addressId/:productId/:qty/:payableAmount"
         component={ModeOfPayment}
       />
-      <Route path="/myOrders/:userId" component={MyOrders} />
      
       <Route path="/adminDashboard" component={props.admin.isAuthenticatedAdmin ? AdminDashboard : Home} />
       <Route path="/adminOrders" component={props.admin.isAuthenticatedAdmin ? AdminOrders : Home} />
@@ -76,6 +83,7 @@ function App(props) {
       <Route path="/addProduct" component={props.admin.isAuthenticatedAdmin ? ProductUpload : Home} />
       <Route path="/adminEdit" component={props.admin.isAuthenticatedAdmin ? AdminEdit : Home} />
       <Route path="/editProduct/:productId" component={props.admin.isAuthenticatedAdmin ? EditProduct : Home} />
+      <Route path="/printInvoice/:orderId" component={props.admin.isAuthenticatedAdmin || props.user.isAuthenticated ? PrintInvoice : Home} />
       <Route path="/editProductCategory/:productCategoryId" component={props.admin.isAuthenticatedAdmin ? EditProductCategory : Home} />
       <Footer />
     </BrowserRouter>

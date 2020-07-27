@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
 import CardAddress from "./CardAddress";
-import CardProductForConfirmOrders from "./CardProductForConfirmOrders";
 import "../confirmOrders.css";
 import Modal from "react-modal";
 import "materialize-css/dist/css/materialize.min.css";
@@ -47,7 +46,7 @@ const ConfirmOrders = (props) => {
     setselectedPinCode(pinCode);
     setselectedNation(nation);
   };
-    // const token = props.user.token;
+   
 
     // Headers
     const config = {
@@ -57,10 +56,7 @@ const ConfirmOrders = (props) => {
       credentials:'include',
     };
 
-    // If token, add to headers
-    // if (token) {
-    //   config.headers["x-auth-token"] = token;
-    // }
+  
   useEffect(() => {
 
     axios
@@ -94,15 +90,6 @@ const ConfirmOrders = (props) => {
     axios
       .post(`/app/getDataOfProducts/${props.match.params.productId}`, {})
       .then((response2) => {
-        //   for(var i=0; i<response2.data.length; i++){
-
-        //         element.push(<CardProductForConfirmOrders
-        //         id={response2.data[i]._id}
-        //         productName={response2.data[i].productName}
-        //         price={response2.data[i].price}
-        //         />)
-
-        //     }
 
         element2.push(
           <React.Fragment>

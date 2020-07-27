@@ -1,44 +1,53 @@
 import React, { useState, useEffect } from "react";
-import { connect } from "react-redux";
 import axios from "axios";
-import { withRouter } from "react-router-dom";
 
 const MyOrders = (props) => {
-  useEffect(() => {}, []);
-
-  const renderContent = () => {
-    switch (props.user.isAuthenticated) {
-      case null:
-        return <a href="/">loading</a>;
-      case false:
-        return (
-          <React.Fragment>
-            <h1>Please Login</h1>
-          </React.Fragment>
+  const [content, setcontent] = useState("");
+  const element = [];
+  useEffect(() => {
+    // fetch myorder
+    const getMyOrders = async () => {
+      try {
+        const response = await axios.get(
+          `/app/getMyOrders/${props.match.params.userId}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+            credentials: "include",
+          }
         );
 
-      case true:
-        return (
-          <React.Fragment>
-            <h1>Order Success</h1>
-          </React.Fragment>
+        await response.data.map((orders) =>
+          element.push(
+            <li class="collection-item avatar">
+              <img
+                alt="product"
+                className="activator responsive-img"
+                style={{ height: "40%", width: "40%" }}
+                src={`/images/${orders.productId}1.jpg`}
+              /><br />
+              <span class="title">Order id: {orders._id}</span>
+              <p>
+                Product: {orders.listOfOrders[0].productName} <br />
+                Address:{orders.address[0].addressLine1}{', '}{orders.address[0].addressLine2}{', '}{orders.address[0].city}
+              </p>
+            </li>
+          )
         );
-      default:
-        return (
-          <React.Fragment>
-            <h1>Please Login</h1>
-          </React.Fragment>
-        );
-    }
-  };
+        await setcontent(element);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getMyOrders();
+  }, []);
 
-  return renderContent();
+  return (
+    <div className="container">
+      <ul class="collection">{content}</ul>
+    </div>
+  );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    user: state.auth,
-  };
-};
-
-export default connect(mapStateToProps)(MyOrders);
+export default MyOrders;

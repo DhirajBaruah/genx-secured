@@ -9,15 +9,15 @@ function AdminNavbar(props) {
   }, []);
 
   return (
-    <div className="AdminNavbar">
+    <div className="AdminNavbar noprint">
       <nav>
         <div class="nav-wrapper">
           <a href="#" data-target="mobile-demo" class="sidenav-trigger">
             <i class="material-icons">menu</i>
           </a>
           <ul class=" hide-on-med-and-down">
-            <li>
-              <Link to="/adminDashboard">Dashboard</Link>
+            <li >
+              <Link  to="/adminDashboard">Dashboard</Link>
             </li>
             <li>
               <Link to="/adminOrders">Orders</Link>
@@ -36,16 +36,19 @@ function AdminNavbar(props) {
       </nav>
 
       <ul class="sidenav" id="mobile-demo">
-        <li>
-          <Link to="/adminDashboard">Orders</Link>
+        <li className="sidenav-close">
+          <Link to="/adminDashboard">Dashboard</Link>
         </li>
-        <li>
+        <li className="sidenav-close">
+          <Link to="/adminOrders">Orders</Link>
+        </li>
+        <li className="sidenav-close">
           <Link to="/addProduct">Edit</Link>
         </li>
-        <li>
+        <li className="sidenav-close">
           <Link to="/addProductCategory">Add a new Product Category</Link>
         </li>
-        <li>
+        <li className="sidenav-close">
           <Link to="/addProduct">Add a new Product</Link>
         </li>
       </ul>
