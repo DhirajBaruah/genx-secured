@@ -437,8 +437,9 @@ router.get("/categoryExplored/:categoryName", (req, res) => {
         console.log("No record found ");
         return res.status(400).json({ msg: "No file uploaded" });
       }
-
+      console.log(`=============${data}`)
       res.send(data);
+      
     });
   });
 });
