@@ -72,13 +72,7 @@ app.use(function (req, res, next) {
 // //PROXY
 // app.use('/*', createProxyMiddleware({ target: 'http://localhost:3000', changeOrigin: true }));
 
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static("client/build"));
-  const path = require("path");
-  app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
-  });
-}
+
 
 // import admin routes
 const adminRoutes = require("./controllers/admin");
@@ -88,6 +82,15 @@ const appRoutes = require("./controllers/app");
 app.use("/admin", adminRoutes);
 // app routes
 app.use("/app", appRoutes);
+
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("client/build"));
+  const path = require("path");
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+  });
+}
 
 
 module.exports = app;
