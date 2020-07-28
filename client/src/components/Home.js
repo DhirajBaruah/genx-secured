@@ -85,6 +85,7 @@ const Home = () => {
     axios
       .get("/app/categoryExplored/Cardio", {})
       .then(async (response) => {
+        console.log(response)
         const res = await response.data.map((item) => {
           return (
             <Link
