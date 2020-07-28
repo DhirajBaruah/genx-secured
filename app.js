@@ -9,7 +9,6 @@ const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const passport = require("passport");
 const flash = require("connect-flash");
-const path = require("path");
 const fileUpload = require("express-fileupload");
 const { MONGO_URI } = require("./util/secrets");
 const { COOKIE_KEY } = require("./util/secrets");
@@ -74,13 +73,11 @@ app.use(function (req, res, next) {
 // app.use('/*', createProxyMiddleware({ target: 'http://localhost:3000', changeOrigin: true }));
 
 if (process.env.NODE_ENV === "production") {
-  // app.use(express.static("client/build"));
-  app.use(express.static(path.join(__dirname, "client", "build")));
-  app.use('*', express.static(path.join(__dirname, "client", "build")))
-  
-  // app.get("*", (req, res) => {
-  //   res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
-  // });
+  app.use(express.static("client/build"));
+  const path = require("path");
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+  });
 }
 
 // import admin routes
