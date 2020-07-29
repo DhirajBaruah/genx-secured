@@ -118,7 +118,7 @@ const EditProductCategory = (props) => {
         <img
           data-target="modal1"
           className="responsive-img modal-trigger"
-          src={`/images/${props.match.params.productCategoryId}.jpg`}
+          src={`/uploads/${props.match.params.productCategoryId}.jpg`}
         />
       </div>
 

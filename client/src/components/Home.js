@@ -60,7 +60,7 @@ const Home = () => {
               <img
                 className="responsive-img car-img"
                 style={{ borderRadius: "3%" }}
-                src={`/images/${item._id.replace(/ /g, "")}.jpg`}
+                src={`/uploads/${item._id.replace(/ /g, "")}.jpg`}
               />
             </Link>
           );
@@ -95,7 +95,7 @@ const Home = () => {
               <img
                 className="responsive-img car-img"
                 style={{ borderRadius: "3%" }}
-                src={`/images/${item._id.replace(/ /g, "")}.jpg`}
+                src={`/uploads/${item._id.replace(/ /g, "")}.jpg`}
               />
             </Link>
           );
@@ -129,7 +129,7 @@ const Home = () => {
               <img
                 className="responsive-img car-img"
                 style={{ borderRadius: "3%" }}
-                src={`/images/${item._id.replace(/ /g, "")}.jpg`}
+                src={`/uploads/${item._id.replace(/ /g, "")}.jpg`}
               />
             </Link>
           );

@@ -75,7 +75,7 @@ const Navbar = (props) => {
             <img
               className="sidenav-trigger responsive-img"
               data-target="slide-out"
-              src={`/images/BrandLogoPng.png`}
+              src={`/uploads/BrandLogoPng.png`}
             />
           </a>
           <ul id="nav-mobile" class="left ">

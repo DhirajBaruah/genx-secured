@@ -97,7 +97,7 @@ const ConfirmOrders = (props) => {
               <div className="col s4">
                 <img
                   className="responsive-img"
-                  src={`/images/${response2.data[0].productName}1.jpg`}
+                  src={`/uploads/${response2.data[0].productName}1.jpg`}
                 />
               </div>
               <div className="col s4">

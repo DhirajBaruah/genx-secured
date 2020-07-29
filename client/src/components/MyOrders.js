@@ -25,7 +25,7 @@ const MyOrders = (props) => {
                 alt="product"
                 className="activator responsive-img"
                 style={{ height: "40%", width: "40%" }}
-                src={`/images/${orders.productId}1.jpg`}
+                src={`/uploads/${orders.productId}1.jpg`}
               /><br />
               <span class="title">Order id: {orders._id}</span>
               <p>

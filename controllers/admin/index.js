@@ -181,26 +181,26 @@ router.post("/uploadProduct", requiredLogin, (req, res) => {
       return res.status(422).send(err);
     }
 
-    file1.mv(`./client/public/images/${data._id}1.jpg`, (err) => {
+    file1.mv(`./uploads/${data._id}1.jpg`, (err) => {
       if (err) {
         console.error(err);
         return res.status(500).send(err);
       }
     });
 
-    file2.mv(`./client/public/images/${data._id}2.jpg`, (err) => {
+    file2.mv(`./uploads/${data._id}2.jpg`, (err) => {
       if (err) {
         console.error(err);
         return res.status(500).send(err);
       }
     });
-    file3.mv(`./client/public/images/${data._id}3.jpg`, (err) => {
+    file3.mv(`./uploads/${data._id}3.jpg`, (err) => {
       if (err) {
         console.error(err);
         return res.status(500).send(err);
       }
     });
-    file4.mv(`./client/public/images/${data._id}4.jpg`, (err) => {
+    file4.mv(`./uploads/${data._id}4.jpg`, (err) => {
       if (err) {
         console.error(err);
         return res.status(500).send(err);
@@ -264,7 +264,7 @@ router.post("/updateProductImage/:id", requiredLogin, (req, res) => {
   const productId = req.params.id;
   const imageNo = req.body.imageNo;
 
-  file.mv(`./client/public/images/${productId}${imageNo}.jpg`, (err) => {
+  file.mv(`./uploads/${productId}${imageNo}.jpg`, (err) => {
     if (err) {
       console.error(err);
       return res.send(err);
@@ -292,25 +292,25 @@ router.delete(`/deleteProduct/:id`, requiredLogin, (req, res) => {
       return res.send(err);
     }
 
-    fs.unlink(`./client/public/images/${id}1.jpg`, (err) => {
+    fs.unlink(`./uploads/${id}1.jpg`, (err) => {
       if (err) {
         console.log(`err ${err}`);
         return res.send(err);
       }
     });
-    fs.unlink(`./client/public/images/${id}2.jpg`, (err) => {
+    fs.unlink(`./uploads/${id}2.jpg`, (err) => {
       if (err) {
         console.log(`err ${err}`);
         return res.send(err);
       }
     });
-    fs.unlink(`./client/public/images/${id}3.jpg`, (err) => {
+    fs.unlink(`./uploads/${id}3.jpg`, (err) => {
       if (err) {
         console.log(`err ${err}`);
         return res.send(err);
       }
     });
-    fs.unlink(`./client/public/images/${id}4.jpg`, (err) => {
+    fs.unlink(`./uploads/${id}4.jpg`, (err) => {
       if (err) {
         console.log(`err ${err}`);
         return res.send(err);
@@ -363,7 +363,7 @@ router.delete(`/deleteProductCategory/:id`, requiredLogin, (req, res) => {
     data.map((item) => {
       product.findOneAndRemove({ _id: item._id }, (err, data) => {});
       for (var i = 1; i < 5; i++) {
-        fs.unlink(`./client/public/images/${item._id}${i}.jpg`, (err) => {
+        fs.unlink(`./uploads/${item._id}${i}.jpg`, (err) => {
           if (err) {
             console.log("path was deleted");
           }
@@ -383,7 +383,7 @@ router.delete(`/deleteProductCategory/:id`, requiredLogin, (req, res) => {
       return res.send(err);
     }
 
-    fs.unlink(`./client/public/images/${id}.jpg`, (err) => {
+    fs.unlink(`./uploads/${id}.jpg`, (err) => {
       if (err) {
         return res.status(500).json({ msg: "No file uploaded" });
         console.log("path was deleted");
@@ -411,7 +411,7 @@ router.post(
     const file = req.files.file;
     const id = req.params.productCategoryId;
 
-    file.mv(`./client/public/images/${id}.jpg`, (err) => {
+    file.mv(`./uploads/${id}.jpg`, (err) => {
       if (err) {
         console.error(err);
         return res.send(err);
