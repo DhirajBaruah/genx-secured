@@ -27,10 +27,10 @@ const ProductExplored = (props) => {
 
   useEffect(() => {
     setImages([
-      `/images/${props.match.params.productId}1.jpg`,
-      `/images/${props.match.params.productId}2.jpg`,
-      `/images/${props.match.params.productId}3.jpg`,
-      `/images/${props.match.params.productId}4.jpg`,
+      `/uploads/${props.match.params.productId}1.jpg`,
+      `/uploads/${props.match.params.productId}2.jpg`,
+      `/uploads/${props.match.params.productId}3.jpg`,
+      `/uploads/${props.match.params.productId}4.jpg`,
     ]);
     fetch(`/app/productExplored/${props.match.params.productId}`, {
       headers: {
@@ -146,7 +146,7 @@ const ProductExplored = (props) => {
               <img
                 onClick={() => setIsOpen(true)}
                 className="responsive-img"
-                src={`/images/${props.match.params.productId}1.jpg`}
+                src={`/uploads/${props.match.params.productId}1.jpg`}
               />
             </div>
             <div className="col s6 ">
@@ -154,7 +154,7 @@ const ProductExplored = (props) => {
               <img
                 onClick={() => setIsOpen(true)}
                 className="responsive-img"
-                src={`/images/${props.match.params.productId}2.jpg`}
+                src={`/uploads/${props.match.params.productId}2.jpg`}
               />
             </div>
           </div>
@@ -164,7 +164,7 @@ const ProductExplored = (props) => {
               <img
                 onClick={() => setIsOpen(true)}
                 className="responsive-img"
-                src={`/images/${props.match.params.productId}3.jpg`}
+                src={`/uploads/${props.match.params.productId}3.jpg`}
               />
             </div>
             <div className="col s6 ">
@@ -172,7 +172,7 @@ const ProductExplored = (props) => {
               <img
                 onClick={() => setIsOpen(true)}
                 className="responsive-img"
-                src={`/images/${props.match.params.productId}4.jpg`}
+                src={`/uploads/${props.match.params.productId}4.jpg`}
               />
             </div>
           </div>

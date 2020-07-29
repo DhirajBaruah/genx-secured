@@ -124,26 +124,26 @@ const EditProduct = (props) => {
           onClick={() => setimageNo("1")}
           data-target="modal1"
           className="responsive-img modal-trigger"
-          src={`/images/${props.match.params.productId}1.jpg`}
+          src={`/uploads/${props.match.params.productId}1.jpg`}
         />
 
         <img
           onClick={() => setimageNo("2")}
           data-target="modal1"
           className="responsive-img modal-trigger"
-          src={`/images/${props.match.params.productId}2.jpg`}
+          src={`/uploads/${props.match.params.productId}2.jpg`}
         />
         <img
           onClick={() => setimageNo("3")}
           data-target="modal1"
           className="responsive-img modal-trigger"
-          src={`/images/${props.match.params.productId}3.jpg`}
+          src={`/uploads/${props.match.params.productId}3.jpg`}
         />
         <img
           onClick={() => setimageNo("4")}
           data-target="modal1"
           className="responsive-img modal-trigger"
-          src={`/images/${props.match.params.productId}4.jpg`}
+          src={`/uploads/${props.match.params.productId}4.jpg`}
         />
       </div>
 

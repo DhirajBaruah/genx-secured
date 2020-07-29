@@ -12,7 +12,7 @@ const CardProduct = (props) => {
                 alt="img"
                 className="activator"
                 style={{ height: 300, width: 300 }}
-                src={`/images/${props.imgName}1.jpg`}
+                src={`/uploads/${props.imgName}1.jpg`}
               />
             </div>
             <div className="card-content">
