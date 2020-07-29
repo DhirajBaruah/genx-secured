@@ -13,7 +13,7 @@ const Card = (props) => {
               alt="img"
               className="activator responsive-img"
               style={{ height: 300, width: 300 }}
-              src={`/images/${imageName}.jpg`}
+              src={`/uploads/${imageName}.jpg`}
             />
           </div>
           <div className="card-content">

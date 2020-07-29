@@ -129,7 +129,7 @@ router.post("/uploadProductCategory", requiredLogin, (req, res) => {
       success: true,
     });
     console.log("successfully added in productCategories");
-    file.mv(`./client/public/images/${data._id}.jpg`, (err) => {
+    file.mv(`./uploads/${data._id}.jpg`, (err) => {
       if (err) {
         console.error(err);
         return res.status(500).send(err);
