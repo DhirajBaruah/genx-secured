@@ -307,7 +307,7 @@ router.post("/forgotPass", async (req, res) => {
     global.otp = Math.floor(Math.random() * (9999 - 1000)) + 1000;
     delete(emailForNewPass);
   };
-  setTimeout(myFunction, 60000 * 3);
+  // setTimeout(myFunction, 60000 * 3);
 
   async function recCallBack() {
     // create reusable transporter object using the default SMTP transport
